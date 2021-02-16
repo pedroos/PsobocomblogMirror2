@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scala patterns - Pedro Sobota</title>
+  <meta property='og:title' content='Scala patterns - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet"><link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="img/lab/style_body_article_lab.css"/>
+
+</head>
+
+<body class="lab">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<script src='img/microlight.js' async></script>
+
+<!--<script src='img/cindyjs/Cindy.js'></script>
+<link rel="stylesheet" type="text/css" href="img/cindyjs/CindyJs.css"/>-->
+
+<h1>Scala patterns</h1>
+
+<p>It seems one of the focuses of Scala is about terseness allied to power (typing, functional programming, object orientation). Scala really showcases this fact: in my initial observations, comparing some JavaScript code with equivalent Scala implementations has shown similar verbosity (even sometimes favorably on Scala's side) while Scala retains a lot more capacity in the language.</p>
+
+<p>In this post series, I'll enumerate some patterns found along the way which may have taken some time to put into context. I hope to show some of both the terseness and power of the language. This post series features Scala 3 (Dotty) exclusively.</p>
+
+<h3>Why Scala</h3>
+
+<p>The primary reason I chose to investigate Scala is because it solved a problem present in C# <a class="ref" href="#ref">[1]</a> related to object-oriented modeling. Basically, the need was to:</p>
+
+<ul>
+    <li>Inherit <code>A</code> from a class <code>B&lt;T&gt;</code> with a type parameter</li>
+    <li>Use <code>A</code> as a type parameter for a generic class <code>C&lt;T&gt;</code></li>
+    <li>Interpret <code>C&lt;A&gt;</code> as <code>C&lt;A&lt;T&gt;&gt;</code></li>
+</ul>
+
+<p>The below runnable code comparison illustrates the case (click to open).</p>
+
+<div style="width: 1010px; height: 500px; margin-left: auto; margin-right: auto; margin-bottom: 30px; margin-top: 30px;">
+<div style="float: left; margin-right: 10px;">
+<!-- <iframe width="490" height="500" src="https://dotnetfiddle.net/Widget/nQZC11" frameborder="0"></iframe> -->
+<a href="https://dotnetfiddle.net/nQZC11" target="_blank"><img src="img/scala_patterns_1.png" width="494" height="502" alt=".Net Fiddle - click to open"></a>
+</div>
+<div style="float: left; margin-left: 10px;">
+<!-- <iframe width="490" height="500" frameborder="0" src="https://embed.scalafiddle.io/embed?sfid=pSzsaj1/0&layout=v85"></iframe> -->
+<a href="https://scalafiddle.io/sf/mTHELby/2" target="_blank"><img src="img/scala_patterns_2.png" width="494" height="502" alt="ScalaFiddle - click to open"></a>
+</div>
+</div>
+
+<p style="clear: left">In other words, it was needed to use a class with a type parameter as a class with the supertype of that type parameter as type parameter, where the supertype itself has a type parameter but its child class doesn't.</p>
+
+<p><i>Julia</i> comments in this as well <a class="ref" href="#ref">[2]</a>:</p>
+
+<!-- <p>This could be given in a real-world example as: if a table is a furniture, is a wooden table a wooden furniture? Or, if dark green is a variety of green, is a dark green drawing a green drawing? In languages which don't support this kind of variance of <i>type parameters</i>, these relationships can't be modeled. From the <i>Julia</i> documentation <a class="ref" href="#ref">[2]</a>:</p>-->
+
+<blockquote class="special">
+    In other words, in the parlance of type theory, Julia's type parameters are invariant, rather than being covariant (or even contravariant). This is for practical reasons: while any instance of <code class="noweight">Point{Float64}</code> may conceptually be like an instance of <code class="noweight">Point{Real}</code> as well, the two types have different representations in memory.
+</blockquote>
+
+<p>Since Scala solved this particular problem with no difficulty, it became appropriate to investigate the language for generic object-oriented modeling.</p>
+
+<p>A second incentive to use the language was the ease of use of <b><a href="https://www.scala-js.org/" target="_blank">Scala.js</a></b> inside of <b>sbt</b> to compile code for ECMAScript scenarios.</p>
+
+<p>Good output. In the below error:</p>
+
+<pre>
+[error]     |                 pslab.general.node.Node does not take type parameters
+[error] -- [E053] Type Error: C:\pb\lab\scala\src\main\scala\general\node.scala:111:45 -
+[error] 111 |    depthFirst(tr1, 0, path, (pt: ListBuffer[Node[Int]]) => false)
+[error]     |                                             ^^^^^^^^^
+[error]     |                 pslab.general.node.Node does not take type parameters
+[warn] -- [E129] Potential Issue Warning: C:\pb\lab\scala\src\main\scala\general\node.scala:49:54 
+[warn] 49 |  node.children foreach {_.foreach { if (!stop(path)) depthFirst(_, lvl + 1, path, stop) }}
+[warn]    |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[warn]    |A pure expression does nothing in statement position; you may be omitting necessary parentheses
+</pre>
+
+<p>Even with coloring lost, everything is on hand: the <i>file</i>, the <i>line</i>, and the <i>error</i>. The compiler output is formatted such that it is readable, yielding greater productivity in the development cycle. More console programs should put greater thought into their formatting like this.</p>
+
+<p>Another example is the collections output. This is a compiler output in a single line representing a list, and the formatted version. The clear representation is time-saving:</p>
+
+<pre class="microlight">
+  ListBuffer(Node(None,Some(List(Node(None,Some(List(Node(None,None,None,3), Node(None,None,None,4))),None,2), Node(None,None,None,5))),Some(0),1), Node(None,Some(List(Node(None,None,None,3), Node(None,None,None,4))),Some(1),2), Node(None,None,Some(2),3), Node(None,None,Some(2),4), Node(None,None,Some(1),5))
+
+  ListBuffer(
+    Node(
+      None,
+      Some(
+        List(
+          Node(
+            None,
+            Some(List(Node(None, None, None, 3), Node(None, None, None, 4))),
+            None,
+            2
+          ),
+          Node(None, None, None, 5)
+        )
+      ),
+      Some(0),
+      1
+    ),
+    Node(
+      None,
+      Some(List(Node(None, None, None, 3), Node(None, None, None, 4))),
+      Some(1),
+      2
+    ),
+    Node(None, None, Some(2), 3),
+    Node(None, None, Some(2), 4),
+    Node(None, None, Some(1), 5)
+  )
+</pre>
+
+<p>And finally, the tipping factor was, with the advent of version 3 of the language (Scala 3), the availability of trivial sum types: the subject of the first pattern item in this post.</p>
+
+<h3>Sum types</h3>
+
+<p>The sum type in Scala 3 works in a straightforward way, by simply specifying additional types between bars where a type is expected.</p>
+
+<pre class="microlight">
+    case class MyError()
+
+    @main def go() = 
+    val a: Int | MyError = 2
+    val b: Int | MyError = MyError()
+    check(a) // Will print 'It's an Int'
+    check(b) // Will print 'It's an error'
+
+    def check(a: Int | MyError) = 
+        a match {
+            case i: Int => println("It's an Int")
+            case e: MyError => println("It's an error")
+        }
+</pre>
+
+<h3><code>.copy</code></h3>
+
+<p>JavaScript does work easily with records, and one common operation is creating a new record from an existing one while changing one or more properties. In JavaScript, this can be easily be done like this:</p>
+
+<pre class="microlight">
+    const a = {a: 1, b: 2}
+    const b = {...a, b: 3}
+    console.log(b) // Will print out '{a: 1, b: 3}'
+</pre>
+
+<p>In C# 9, this can be done with:</p>
+
+<pre class="microlight">
+    A a = new (1, 2);
+    A b = a with {b = 3};
+
+    Console.WriteLine(b); // Will print out 'A { a = 1, b = 3 }'
+                        
+    record A (int a, int b);
+</pre>
+
+<p>In Scala, the <code>copy</code> function can be used:</p>
+
+<pre class="microlight">
+    case class A (a: Int, b: Int)
+    val a = A(a=1, b=2)
+    val b = a.copy(b=3)
+    println(b) // Will print out 'A(1,3)'
+</pre>
+
+<h3><code>Option</code> access</h3>
+
+<p>It seems a little counter-intuitive that you'd "iterate" over an <code>Option</code>. Commonly, it would be checked manually for a value. This is, of course, supported.</p>
+
+<pre class="microlight">
+    val a: Option[Int] = Some(1)
+    if (a.isDefined) 
+        println("a is defined")     // Will print
+    else 
+        println("a is not defined") // Will not print
+</pre>
+
+<p>The second pattern cited in the documention <a class="ref" href="#ref">[3]</a> is that of <i>pattern matching</i> against the <code>Option</code>. Let's see an example.</p>
+
+<pre class="microlight">    
+    val a: Option[Int] = Some(1)
+    a match {
+      case Some(x) => println("a is defined")  // Will print
+      case None => println("a is not defined") // Will not print
+    }
+</pre>
+
+<p>But the recommended approach is to apply an "iterator" function to <code>Option</code>. This is because a Scala <code>Option</code> is a collection with one or zero elements (it extends <code>IterableOnce[A]</code>). Let's see an example.</p>
+
+<pre class="microlight">
+    val a: Option[Int] = Some(1)
+    val b: Option[Int] = None
+    a foreach (x => println("a is defined")) // Will execute
+    b foreach (x => println("b is defined")) // Will not execute
+</pre>
+
+<h3><code>{_}</code></h3>
+
+<p>In place of a function with any number of arguments of the form:</p>
+
+<pre class="microlight">
+    (a, b) => doSomething(a, b)
+</pre>
+
+<p>The following form can be used instead:</p>
+
+<pre class="microlight">
+    { doSomething(_, _) }
+</pre>
+
+<p>With each <code>_</code> a placeholder for an argument. This can be nested. Suppose there is a nested list we must operate upon. We can do so tersely:</p>
+
+<pre class="microlight">
+    val d: Seq[Seq[Seq[Int]]] = List(List(List(1, 2, 3), List(4, 5, 6)), List(List(7, 8, 9), List(10, 11, 12)))
+    val ddup = d map {_.map {_.map {_ * 2}}}
+    println(ddup) // Will print 'List(List(List(2, 4, 6), List(8, 10, 12)), List(List(14, 16, 18), List(20, 22, 24)))'
+</pre>
+
+<h3>Class constructor</h3>
+
+<p>Looking at the default class constructor declaration form, I caught myself wondering where custom code for constructors go. After all, constructor declarations in Scala are encapsulated between parentheses, which are after all <i>not</i> code blocks. The answer is the <i>class</i> declaration's code block is the constructor block.</p>
+
+<pre class="microlight">
+    class A (val a: Int, var b: Int) {
+        // Constructor logic
+
+        def method() = {}
+    }
+</pre>
+
+<p>Whether the parameters in the constructor (which <i>are</i>, in this constructor form, mapped as members of the class) are mutable or immutable members of the class is determined by the keyword: <code>val</code> for immutable, <code>var</code> for mutable. As such, even if accessible from outside, an immutable member will not be able to be reassigned. This covers nicely the common case of defining private members and public read-only accessors.</p>
+
+<p>It is still possible to declare a constructor which doesn't automatically create members, though, which is a 2-step process. We begin by defining a private constructor of the form:</p>
+
+<pre class="microlight">
+    class A private (val a: Int, var b: Int) // Notice the "private" keyword
+</pre>
+
+<p>Then, we go on to create a public constructor, using the <code>apply</code> keyword, into the classes' companion <i>object</i>, which in turn redirects the call to the private constructor just defined.</p>
+
+<pre class="microlight">
+    object A {
+        def apply(c: String): A = new A(c.toInt, c.toInt) // Use the private constructor
+    }
+</pre>
+
+<h3>Rich enums</h3>
+
+<p>With the following simplified declaration, in a single step an enumeration can be declared with as much data (i.e. fields) as needed and implement traits. In this case, the trait of being comparable to itself is implemented.</p>
+
+<pre class="microlight">
+  enum En(val i: Int, val name: String) extends Ordered[En] {
+    case A extends En(10, "Value A")
+    case B extends En(20, "Value B")
+  
+    def compare(that: En) = this.i - that.i
+  }
+  
+  @main def Main() =
+    println(En.A.name)    // Will print "Value A"
+    println(En.A < En.B)  // Will print true
+    val enA = En.A
+    println(enA == En.A)  // Will print true
+</pre>
+
+<p>The cases in the enum correspond to defining separate <code>case</code> classes with common methods.</p>
+
+<h3>Short-circuit access</h3>
+
+<p>When a developer knows something a language doesn't, it should be easy to program it. For example, in a hypothetical unit test, a tree of Optional Sequences is manually populated and is to be navigated. The common safe idiom for Optionals in Scala is, understandably, to handle all cases, and for Sequences, to check element existence before access. Both yield line-long statements, but are not needed here. We can still navigate the tree optimistically, with short and readable code, like:</p>
+
+<pre class="microlight">
+    val tr1 = 
+      Node(1, Some(Seq(
+        Node(2, Some(Seq(
+          Node(3, None), 
+          Node(4, None)))), 
+        Node(5, None))))
+    
+    tr1.parent equals None // 1
+    tr1.children.head.head.parent.head equals tr1  // 2
+    tr1.children.head.head.children.head.head.parent.head equals tr1.children.head.head // 3
+    tr1.children.head.head.children.head.drop(1).head.parent.head equals tr1.children.head.head // 4
+    tr1.children.head.drop(1).head.parent.head equals tr1 // 5
+</pre>
+
+<p><code>head</code> is a single method (from Collection) useful for both assuming valued Options, and bypassing existence checking of the current element. <code>drop()</code> allows skipping over elements.</p>
+
+<a name="ref"><h3>References</h3></a>
+<ol>
+    <li><a href="https://stackoverflow.com/questions/62906153/inherited-class-with-different-generic-type-parameters-is-not-castable" target="_blank">Inherited class with different generic type parameters is not castable, Stack Overflow</a></li>
+    <li><a href="https://docs.julialang.org/en/v1/manual/types/#Parametric-Composite-Types" target="_blank">Parametric Composite Types, Julia documentation</a></li>
+    <li><a href="https://www.scala-lang.org/api/current/scala/Option.html" target="_blank">Option, Scala Standard Library documentation</a></li>
+</ol>
+
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

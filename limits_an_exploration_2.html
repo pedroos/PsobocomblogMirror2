@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Limits, an exploration - part Ⅱ - Pedro Sobota</title>
+  <meta property='og:title' content='Limits, an exploration - part Ⅱ - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<style type="text/css">
+  code {
+      font-weight: bold;
+  }
+</style>
+
+<h1>Limits, an exploration - part Ⅱ</h1>
+<div class="blogtags"><span class="blogtag algo">Mathematics</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>November/2020</p><hr/>
+</div>
+
+<p><i>Note: this article is incomplete. It is published because progress has already started on its continuation.</i></p>
+
+<h3>Class equality</h3>
+
+<!-- <p>One interesting feature of object orientation is the uniqueness of classes. If you're modeling concepts which have duplicate representations, OO forces you to commit to a single representation for each concept, as classes are different from each other by their behavior.</p>
+
+<p>It is detrimental in object orientation to duplicate behavior, so this presupposes a phase of deduplication of concepts before modeling in OO.</p> -->
+
+<!--
+- How the Urelement arises
+  - Basic need for a set to have other sets
+  - But without an element kind, no set has elements
+  - Need an element kind which can be part of a set, so sharing the same base class as Set
+  - This corresponds to Urelement
+  - Alternatives? Display shortcomings
+- Subclasses: inheriting from Set and overriding methods
+  - Tuple
+    - Genericity
+    - Tuples are recursive: show
+      - Pair is base, two tuple elements
+      - Triple is a tuple element + a pair
+      - Quadruple is a tuple element + a triple, etc.
+      - The problem: a one-uple can't be represented.
+        - Analogous to Peano axioms: 1 is an axiom; from 2 onwards is recursive; no way around it; for us, means a separate class
+      - Implement isolated one-uple from which pair inherits
+  - Relation
+    - The elements are Tuples
+    - List of elements is Set of Tuples
+    - Overriding Set's Add(), so receives a Set and constrains to only SetElement
+    - Symmetry, reflexivity and transitivity in a unary relation
+    - These Relations are extensive, work with finite sets. For infinite sets, we'll suppose elements are variables.
+  - Function
+    - Inheriting Relation
+    - Same as Relation, but overriding Add() to check for related elements repetitions
+- Figurative Urelement
+  - Only a Set not to have (in object orientation) Set elements be untyped (Object)
+  - Correct would be two-possible-types. Two ways
+    - Irregular collection: n types as a predicate
+      - Show an example
+    - Sum type (functional)
+  - Observe that a Set is then, a Tree representable as a multidimensional Array
+  - Since IrrColl not implemented, use Sum Type. But OO is iseful for Set > Relation > Function. So can't adopt a functional language. But C# doesn't have Sum Types. So migrate to Scala.
+  - But before doing so, examine the alternative (unary relation) in the Wikipedia Urelement article
+    - *** AQUI caiu no Universe (início do artigo).
+    - Examine as well the axiom of extensionality implication
+  - Then, implement in Scala
+- Then, follow with building Functions
+- Then, demonstrate using a function to build a family of sets (Analysis)
+-->
+
+<p>To "test" relations, it is necessary to compose an Universe.</p>
+
+<p>There would be two possible ways to implement Relations. One, Relations are standalone objects which hold Relation tuples. Two, the related objects themselves record which objects they're related to.</p>
+
+<p>In the second case, the definition for the objects which are able to be related to other objects would have to include the structure for relations to exist. This seems not to be the case with the "basic" formalization of Relation we're implementing: a Relation is here defined as a Set of Tuples which holds related Sets, a standalone object.</p>
+
+<p>Even being Sets themselves, these Relations can't be part of the same "general" graph of Set objects in the system: a Set may belong in a Relation, but a Relation does not (by definition) belong to any Set. As such, they're not elements of any other Sets. This means the System has more than one parentless object; or, in other words, the system's graph has multiple roots.</p>
+
+<p>This is what's called a "Universe"; any instance where more than one Set is a root, i.e., a parentless Set in the system.</p>
+
+<h3>Set universe</h3>
+
+<p>There are two possibilities for a universe of objects, depending on an equality criteria.</p>
+
+<ul>
+    <li>Objects are compared by value.</li>
+    <li>Or objects are compared by reference.</li>
+</ul>
+
+<p>The first distinction between the two systems is that, in a value system, objects needn't be "formalized" into the system to "exist" within it: that is, they exist by themselves and can be compared freely, with freely meaning "at any time". In a reference system, before objects are assigned references, they can't be compared against each other. (In the <code>ElemObjs</code> implementation, they equal each other at that moment.)</p>
+
+<p>The act of "formalization" creates a concept of "time" in the system; there is a "before" and an "after" formalization. There could be two ways to implement the formalization procedure: one, to have a "formalizer" object which formalizes objects on-demand. This is complicated by having to define the Formalizer and, also, guarantee that it works properly, i.e., it is a fully-functional machine. This can be avoided by embedding the machine in the system by choosing the moment of Set insertion as the formalization moment; this guarantees that no Set is unformalized by, for example, a 'malfunction' of a Formalizer.</p>
+
+<p>The "equality check" is also different for each option: for a reference system, only the reference needs to be equal. For the value system, the Set's entire contents (its elements, including other Sets) have to equal the compared Set's contents.</p>
+
+<p>Since elements of Sets might be Sets, if comparison is done by value and a Set contains itself (immediately or "down the chain"), the algorithm will not terminate: each time the comparison reaches the Set, it will be guaranteed to find the Set again down the line. This means a cycle in the Set graph is not allowed in the value system. This property of the system is also called the "Axiom of Regularity" in formal Set Theory <a class="ref" href="#ref">[1]</a>. Of course, this is not a restriction in the reference Set system because equality does not involve the contents of the Sets.</p>
+
+<p>Regularity could also be a property of a particular Set. A given Set could have itself as a child without affecting one of its children that is positioned beyond the irregularity, that is, is a child of the last instance of the Set in the path from the Set to the leaf. If the child doesn't have itself in its leaf-path, it exhibits no problem being checked for equality in the value system, for example. This way, Sets in the path to the root could be marked as Regular or Irregular with each child added. It would be known at any time which Sets are Irregular and the Regular Sets could have their value assessed independently.</p>
+
+<p>Given an Universe, Relations can be tested.</p>
+
+<h3>The induction problem</h3>
+
+<p>When setting out to define a unary Relation, a problem of representation arises. A binary relation, or pair, includes two placeholders for related objects. Recursively, the ternary relation is represented as a binary relation whose second placeholder maintains a binary relation itself. This way, there are three elements total in the parent binary relation. And the quaternary relation is a binary in which its second element is a ternary relation, and so on.</p>
+
+<p>While the binary relation in this formulation can represent any arity of relation, it can't represent the unary relation. The unary relation, as well, can't represent the binary relation: it has a single element where only another unary relation, if we would use the same idea of using a nested relation, would be placed: this would produce no more than a nested unary relation, and only possibly a path of nested unary relations would result. Since a Relation is a Set, all such relations would be Set-containing Sets, and only the leaf Relation would be an Element-Set, so only one element would be represented after all.</p>
+
+<p>This problem is analogous of the problem of definition of the Single-Element Tuple. Defining the Pair, we can define any Tuple, but without defining a special 1-uple by itself, such Tuple can't exist (and the other Tuples can't be represented by the 1-uple). This is also analogous to the Peano axiom of induction <a class="ref" href="#ref">[2]</a>:</p>
+
+<blockquote class="special">
+    <p>Peano's original formulation of the axioms used \(1\) instead of \(0\) as the "first" natural number. This choice is arbitrary, as axiom 1 does not endow the constant \(0\) with any additional properties. However, because \(0\) is the additive identity in arithmetic, most modern formulations of the Peano axioms start from \(0\). Axioms 1, 6, 7, 8 define a unary representation of the intuitive notion of natural numbers: the number \(1\) can be defined as \(S(0)\), 2 as \(S(S(0))\), etc.</p>
+    <p>However, considering the notion of natural numbers as being defined by these axioms, axioms 1, 6, 7, 8 do not imply that the successor function generates all the natural numbers different from 0. Put differently, they do not guarantee that every natural number other than zero must succeed some other natural number.</p>
+    <p>The intuitive notion that each natural number can be obtained by applying successor sufficiently often to zero requires an additional axiom, which is sometimes called the axiom of induction. If \(K\) is a set such that \(0\) is in \(K\) and, for every natural number \(n\), \(n\) being in \(K\) implies that \(S(n)\) is in \(K\), then \(K\) contains every natural number.</p>
+</blockquote>
+
+<p>This seems to be a property generalizable to everything of which there must be a "first": the "first" is a kind, and the successors are another kind (in the above example, \(0\) and \(n\gt 0\)).</p>
+
+<blockquote class="special">
+  A Peano structure comprises a set \(P\) with a successor mapping \(s : P \rightarrow P\) and a non-successor element \(0\). <a class="ref" href="#ref">[3]</a>
+</blockquote>
+
+<p>This seems also to be the case about Set Elements or Urelements: a path of nested Sets can be defined by a single Set containing a Set; but for this process to terminate, there must be a Set which contains no Set. This is a different kind, and is the "first" kind of Set, the Urelement. Since the alternative definition of "terminating" Set as a Set with a special unary relation, cited on <a class="ref" href="#ref">[1]</a>, relies on a Unary relation definition which itself is inductive and so has a distinct initial element, the problem by using this different definition of terminal Set is only moved to the Relation instead. By consequence, a system dealing with numbers couldn't be single-kinded: the number one and the rest of the natural numbers must be of different kinds.</p>
+
+<p>This seems related to the terminating and non-terminating properties of recursive algorithms. From <a class="ref" href="#ref">[4]</a>:</p>
+
+<blockquote class="special">
+  <p>Some attemps to cure Zeno's paradox instigated assertions like \(\frac{1}{2}+\frac{1}{4}+\ldots=1\). (...) The equation's left-hand side is a non-terminating infinite process hidden in the ellipsis ("..."). The right-hand side's \(1\) is a terminus assigned to the process.</p>
+  <p>(...) During the nineteenth century a rationale evolved to separate those infinite series called "convergent", to which a terminus could be assigned in mathematical ways, from other infinite series that deserved no such terminus.</p>
+</blockquote>
+
+<p>Let's define a terminus as either the initiating step, or the terminating step in a recursive algorithm. In the case of the objects discussed, the successor function and terminus could be mapped as:</p>
+
+<div style="width: 800px; margin-left: auto; margin-right: auto;">
+<table style="border-spacing: 50px 0">
+  <tr>
+    <th>Object</th>
+    <th>Successor function</th>
+    <th>Initial terminus</th>
+    <th>Final terminus</th>
+  </tr>
+  <tr>
+    <td>n-uple</td>
+    <td>n+1 uple</td>
+    <td>1-uple</td>
+    <td>None</td>
+  </tr>
+  <tr>
+    <td>n-ary relation</td>
+    <td>n+1-ary relation</td>
+    <td>Unary relation</td>
+    <td>None</td>
+  </tr>
+  <tr>
+    <td>Set</td>
+    <td>Child set</td>
+    <td>None</td>
+    <td>Set element</td>
+  </tr>
+</table>
+</div>
+
+<p>The respective definitions could be written as:</p>
+
+$$T=\{{\color{darkblue}\text{1-uple}},\text{n-uple 1},\text{n-uple 2},\ldots\}$$
+$$R=\{{\color{darkblue}\text{unary}},\text{n-ary 1},\text{n-ary 2},\ldots\}$$
+$$S=\{\text{set 1},\text{set 2},\ldots,\{\ldots\{\text{set 1},\text{set 2},\ldots,{\color{darkblue}\text{set element}}\}\}\}\text{,}$$
+
+<p>with the termini in blue.</p>
+
+<p>In this case, \(S\) has a <i>terminal</i>, not an <i>initial</i>, terminus, with the opposite being true of \(T\) and \(R\).</p>
+
+<p>Since inductive definitions without terminus cannot terminate, this raises the question whether in the case Sets are defined inductively, wouldn't natural numbers need to be defined first? But natural numbers are defined as Sets. Then, there'd be a chicken-egg paradox, analogous to the situation described by Russell <a class="ref" href="#ref">[5]</a>, p. 25:</p>
+
+<blockquote class="special">
+  What are the numbers that can be reached, given the terms "0" and "successor"? Is there any way by which we can define the whole class of such numbers? (...) We might be tempted to say that "and so on" means that the process of proceeding to the successor may be repeated any finite number of times; but the problem upon which we are engaged is the problem of defining "finite number", and, therefore, we must not use this notion in our definition. Our definition must not assume that we know what a finite number is.
+</blockquote>
+
+<p>From <a class="ref" href="#ref">[6]</a>, p. 17 (emphasis added):</p>
+
+<blockquote class="special">
+  One of the consequences of combining ideas from the two main schools of mathematical thinking is that the usual axioms of set theory, notably those due to Zermelo and Fraenkel, will be ignored. First of all, there will be elements that are not sets, the natural numbers to begin with, only then sets will be formed from them in stages, whereas when starting from the Zermelo-Fraenkel axioms each mathematical entity, in particular each natural number, is some set. From a formal point of view the latter has the advantage that there is just one primitive notion, but from a naive point of view <b>it is not so obvious why numbers should be sets</b> (in formalistic mathematics after the natural numbers come to life in the form of sets, this fact is concealed as soon as possible). Moreover, aren't we presupposing at least the order of the natural numbers already when writing down axioms by means of suitable symbols?
+</blockquote>
+
+<p>In the context of a functional programming language, it's worth mentioning the consideration of the induction problem separately for each kind of object, via a Sum type: this is a type with a common parent, but without an inheritance relation, to another Type. In the Limits <code>ElemPrimitiveSum</code> namespace, <code>Relation1</code> has a class, <code>Relation2+</code> has another class, and there are also <code>Tuple1/Tuple2+</code> and <code>Set/SetElement</code> (and, eventually, <code>NaturalNumber1/NaturalNumber2+</code>).</p>
+
+<p>In this case, Sum types, instead of an Object Oriented method, is used for representing inductive objects. Object Orientation is still used for definition of the successor function in the inductive object.</p>
+
+<a name="#number_crisis"><h3>A type crisis in the numbers</h3></a>
+
+<p>Kinds of numbers (rationals, irrationals etc.) seem different enough in behavior.</p>
+
+<p>Consider a set of any material things which can be said to have little in common: in this case, it turns out to be still (always) possible to find something in common between them. As an example, a house, a car, and a lake could all be said to be <i>physical</i> things, for lack of any more meaningful shared properties. By choosing such a "superset", it is possible to call any disparate elements similar to some degree. In other words, by finding even one common property between them, it is always possible to attribute otherwise disparate elements a common kind.</p>
+
+<p>Consider the following procedure:</p>
+
+<h4>The common-parent procedure</h4>
+
+<ol>
+  <li>Observe an object.</li>
+  <li>Observe a different object.</li>
+  <li>Postulate the second object as being in the <i>complement</i> of the Set to which the first object belongs; then, as immediate consequences, the Sets in which the first and second objects reside can be union'd into a common <i>superset</i>.</li>
+  <li>Observe the second object is a different <i>kind</i> than the first; then, opening the possibility that it may reside in a Set which has an intersection with the first object; that is, it is not <i>entirely</i> different to the first object, thus not being <i>really</i> in the first object's complement.</li>
+  <li><b>Fix</b> this problem by finding a common kind for each object, by following the following sub-procedure:
+    <ol>
+      <li>Observe a common property to both objects; it should be always possible to do so.</li>
+      <li>Stipulate that the Set to which both objects belong is the Set of objects which have that property.</li>
+    </ol>
+  </li>
+  <li>Now, the two objects are in the same kind, residing exclusively in each other's complement, and have a common, perfectly defined parent Set.</li>
+</ol>
+
+<p>It is in this way possible to "put together under the same roof" objects which share similarities but nevertheless share any number of dissimilarities.</p>
+
+<p>Which turns our attention to extensions to the "number system".</p>
+
+<p>It is of note in this respect:</p>
+
+<ul>
+  <li>The number system is taught as a part of the theory that is very "basic", or even "irrefutable"</li>
+  <li>It is not clear at all the relative importance of each extension in the number system; that is, how much each extension contribute to the overall "power" of the system. Such "qualification" is subjective at best.</li>
+  <li>It is not clear which extension depends on which other extensions at which points</li>
+</ul>
+
+<p>An example of extension to the number system is the hyperreals extension to the reals in Nonstandard Analysis. <a class="ref" href="#ref">[7]</a>, p. 4:</p>
+
+<blockquote class="special">Of course our infinitesimals cannot themselves be numbers, but so what? This sort of expansion of a number system through the introduction of new numbers which themselves correspond to nothing in the real world is common in mathematics. Negative numbers and imaginary numbers have no direct physical presence <i>in</i> the real world, yet both serve an essential role in <b>solving problems</b> <i>about</i> the real world.</blockquote>
+
+<p>To take an example, rationals and irrationals share a number of common properties, but also a lot of exclusive properties. The algorithms for each case (i.e. discrete vs. continuous) are highly personalized, in a subjective sense. Perhaps a system of theorems can be imagined that is organized around properties of the <i>algorithms</i> for each set or "type" of numbers, as opposed to from the common construction of the "union" of all numbers (the composition of which, as mentioned, has been a very subjective judgement)? <!--The real number system seems enough different in behavior from the integer system, apart from basic procedures like there being the common ordering relation, or numbers "working" consistently in a geometric setting. Maybe (and probably) I don't know enough about numbers, but I'll say for now maybe instead of Numbers other organizations could be imagined. For example, instead of Numbers the objects could be instead the Ordering, the Induction, Ratios, Limits and maybe even an Infinitesimal constant which I really like, but is irrelevant to the point. Instead of Real Numbers, there could be Properties of Infinity. Instead of Integers, all of them algorithms of Combinatorics. The Number concept seems to appeal to intuition where Mathematics otherwise seems determined to unfavor intuition.--></p>
+
+<p>As emphasized by me in the quote above, the motivation for certain extensions surely seem to be practical (i.e. solving problems) ones. But then, the refutal of Leibniz infinitesimals is of a theoretical order, as the Leibniz infinitesimals are a practical device (or so I think? I'm keen to explore the theoretical properties of it). The theoretical "solving" of the infinitesimals problem happens within the real number system, which has nevertheless extensions motivated from practical purpose. Which direction does the whole thing point to? The main observation taken is that of number systems being necessarily part of the theory subject to analysis as any other part.</p>
+
+<!-- <p>Consider the set definitions:</p>
+
+<ol>
+  <li>\(x\in\mathbb{R}\vert x\in\left\{2,4,5,11\right\}\)</li>
+</ol> -->
+
+<a name="ref"><h3>References</h3></a>
+
+<ol>
+    <li><a href="https://en.wikipedia.org/wiki/Axiom_of_regularity" target="_blank">Axiom of Regularity, Wikipedia</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Peano_axioms" target="_blank">Peano Axioms, Wikipedia</a></li>
+    <li><a href="https://proofwiki.org/wiki/Definition:Peano_Structure" target="_blank">Peano Structure, ProofWiki</a></li>
+    <li><a href="https://people.eecs.berkeley.edu/~wkahan/DearSara.txt" target="_blank">William Kahan, About Zeno's Dichotomy and Paradox, 2009</a></li>
+    <li><a href="http://www.gutenberg.org/ebooks/41654" target="_blanK">Bertrand Russel, Introduction to Mathematical Philosophy, 1919. Project Gutenberg Edition</a></li>
+    <li><a href="https://www.rug.nl/research/som-ri/publications/ponstein.pdf" target="_blank">J. Ponstein, Nonstandard Analysis, 2000</a></li>
+    <li>James M. Hendle, Infinitesimal Calculus. The MIT Press, 1979.</li>
+</ol>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

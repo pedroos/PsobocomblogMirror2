@@ -1,0 +1,28 @@
+/* body.lab h1 {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 26px;
+}
+body.lab h3 {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 18px;
+}
+body.lab h4 {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+}*/
+body.art ul.toc {
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    line-height: 46px;
+}
+body.art ul.toc li {
+    display: inline;
+    float: left;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    line-height: 46px;
+    padding: 15px;
+}
+/*code {
+    font-weight: bold;
+} */

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Limits, an exploration - part Ⅰ - Pedro Sobota</title>
+  <meta property='og:title' content='Limits, an exploration - part Ⅰ - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>Limits, an exploration - part Ⅰ</h1>
+<div class="blogtags"><span class="blogtag algo">Programming</span><span class="blogtag algo">Mathematics</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>July/2020</p><hr/>
+</div>
+
+<p><i>Limits</i> is an explorative project that begun initially with a curiosity to model set-theoretic and some related mathematical objects in <i>C#</i>; more specifically, using <i>C#</i>'s brand of object-orientation.</p>
+
+<p>This document aims to explain some of its modules and worked concepts.</p>
+
+<p>Initially, I described the project's objective as "to model a simplified verifiable set of behaviors to build more elaborate structures atop". With this I meant that it could be taken to aim at <i>proving</i> mathematical statements (that is, theorems), <i>by code</i>; specifically; by means of unit tests. At one point, I described this aim as "theorems-as-tests", but I since took this term back, but not sure why. The idea is that code (as permitted by the language in use) is organized in tests to prove specific properties of objects described. So that each test would prove a specific theorem, maybe; or a specific relevant property or counter-example to some proof.</p>
+
+<p>In is unprobable that this approach will yield fluent mathematical proofs by itself, but it has furnished tips and little evidences about some kind of structure which could be built to get closer to the aim of proving logical statements in this environment.</p>
+
+<p>Anyway, insights and new exercises have been constantly suggesting themselves. Some of these ideas will be discussed, citing their original short descriptions and trying to give a more elaborate explanation in sequence.</p>
+
+<p>First, we'll note about the name of the project and the concept of "limits" included in it. The very first intention of the project was to construct a code representation of a <i>limit</i> (mathematical) as an object. It seemed opportune to try to define objects such as this and <i>derivative</i>, for example, as objects in code, simply because in mathematics, they could be said to maybe fulfill the role of representing objects. In which way? Well, before the precise definitions of limit (for example, the \(\epsilon\) definition) and other objects in Mathematics, mathematicians had episodes of disagreement or even confrontation over definitions, or with the slightest chance more accurately, <i>meaning</i> of mathematical sentences or expressions, as I understood from a class in video by Walter Rudin <a class="ref" href="#ref">[1]</a>. It dawned on me on a certain day that these definitions where backed by <i>less ingenuous</i> or <i>more naive</i> intentions than I previously thought, the <i>initial</i> intentions. I was thinking that some specific persons could be thinking in a highly elaborated logical framework like today but this is an anachronism and this is kinda easy to do for who doesn't know the history so well, like me. The actions, under this stance, could possibly look more like trying to <i>put pencil to paper</i> on what's discussed and argued about, in a sense, and not so much about filling spaces in an organized and categorized structure of knowledge like we see today.</p>
+
+<p>And this actually really elevated my enjoyment of Mathematics, when I saw it as a more visceral discipline than I thought, much more close to elementary desires and needs of clarity for human being communication and common understanding (like the need for definition is), than some intellectual-playboy affair, or some tricks of magic that fill a 'mental entertaining' role. Under this impression I tried to see theorems, definitions and pure abstract definitions as instead <i>exercises in expression</i>, in the <i>ability to define</i>, in the skill of making a concept clear to <i>everyone</i> who could challenge to understand it, with the <i>least expenditure</i> possible, the least <i>verbosity</i>, the most efficiency of expression and representation, and whose result has evolved to close to perfection over time. And that is a challenge that seems exciting on the level of the logical mental process, the communication process, the representation or idiom process, even the cultural process. And that seems, fascinatingly, still relevant as ever in areas of practice, scientific or professional.</p>
+
+<p>Since I'm used to having my code be rejected by the computer if it lacks a comma or a period, I thought transfering this act of definition over to code in a language I was acquainted with would represent a legitimate attempt to bring this analysis process to a new environment, to help see it from another angle, and most importantly, to be <i>able to play with it</i>. I can't stress strongly enough (oh! this is the first time I use this expression &mdash; such joy &mdash; I'm not English native) how much I feel <i>playing</i>, <i>interacting</i> with a subject of study is fruitful. Since a computer program <i>computes and answers</i>, it seemed a good platform to try and exercise these same concepts further, if unpredictably.</p>
+
+<p>Since I had no idea how it would pan out, any insights were surprises, and the deception of <i>not</i> defining limit seems now probable. Nevertheless, I have decided <i>not</i> to erase it from my hard-disk and <i>explore</i> notes left around about it a bit more to see how it tasted to revisit it. There are a few paths already traced, but still no definitive conclusions about any relevant question.</p>
+
+<p>First, let's see some statements that have been created. One of them is about <i>sets</i>. Sets are maybe culturally old history but what's not to love about sets being able to represent a big portion of Mathematics? It is defined in the beginning of <i>ZFC</i> that set equality is mutual inclusion, as in, <i>A belongs to B and B belongs to A</i>, and as such they're equal. But this is different from both <i>reference equality</i>, and <i>value equality</i> in computer science. So I wonder what are the computational implications of this <i>third</i> form of equality? To answer this, I'd probably have to build relevant structures in Set Theory in code. But how would it be modeled? Currently, this project has adopted Object-orientation. But this may change.</p>
+
+<h3>A problem</h3>
+
+<p>Starting out, a challenge soon poses itself. It seems a Set Theory problem. Take an object described as a set of a finite number of other objects. For example, take a Graph described as a Set of two sets; a Set of vertices, and a Set of edges. The problem is, sets are unordered. But then which is which? Which is the Set of vertices, and which is the Set of edges, in the Graph? The first set, the second set? No, the Set is unordered. The "set which is the set or vertices", or the "set which is the set of edges"? These seem to point to a type system, which Set Theory in theory doesn't consider. Outside of that, these are tautologies, which are sentences which are always true and so don't seem to carry particular meaning in them. This seems to be used as a "label" which is enough for mathematical problem-solving but computationally implies establishing a typing system. The only untyped way which suggests itself to me to find out which set is which is by looking at what <i>differentiates</i> a Set from another. And that's its elements. If two sets have any different elements, they are not included in one another and are not equal. But what is element equality? I may be wrong, and please correct me if I'm wrong (rethorical as I don't provide comments section), but I don't find a definition for Set element equality around. Enter <i>variables</i>.</p>
+
+<p>Variables are used to refer to elements, but, more than that, to <i>represent</i> them. It's as if an element of \(A\) is \(a\), then that's all we need to know about \(a\)'s <i>composition</i> in what pertains to its <i>equality</i> in relation to another element such as \(b\). More clearly, \(a\) is different from \(b\) because the characters 'a' and 'b' are different.</p>
+
+<p>This is a <i>reference system</i>. It is the same as programming languages variables, (and that's why I use to imagine porting programming language variable concepts to casual Mathematical situations), but it is a route around the problem. To be completely comical, say we put a Ball (yes, a green beach volleyball) in place of a vertex in graph \(A\). How would we know? Actually, this example is not needed. Just try to differentiate between any <i>two</i> vertexes in said graph. Far as I know, a vertex has no extra properties which could denote it from a similar object, as it is in the simplest situation an "existence" object &mdash; I have looked at "labels", but this seems an artificial property to base equality on (and it probably doesn't aim to do so). I think the <i>number</i> of vertexes is possibly <i>the object</i>, and the Set representation is a bit unoptimal, but regardless. This is not the only example.</p>
+
+<p>Anyway, this brings about the opportunity for the concept of <i>types</i>. Since around the beginning of the 20th century types are already investigated, and everyone knows it's become its own theory and (from what I've seen) an alternative to Set Theory in Mathematics (or Meta-Mathematics? I don't know.) Types are also present in the language <i>C#</i> and apparently one of the ways to prove Mathematics in a computer language, in languages with more powerful Type systems than <i>C#</i>, the same as what this project aims to do, but there's, first, an alternative. Or, it seems, there are <i>two</i> equivalent alternatives, before leaving OO.</p>
+
+<p>I'll explain the most solid alternative first, because it's a straightforward computer science concept, and carries no possibility of hallucinations or doubts. First, let's enumerate some qualities of <i>Collections</i> that are worthwhile to investigate in the scope of this problem. A Collection may be ordered or unordered; finite or infinite (or transfinite, etc., but we're only considering finite collections); typed or untyped (meaning its elements carry any Types); and have variable or fixed number of elements.</p>
+
+<ul>
+    <li>A Set is said to be unordered, untyped (it can carry anything in it), and variable-sized. (A Set is actually a tree, but we'll go about this later.)</li>
+    <li>A Sequence or List is ordered, may be typed or not, and is variable-sized. Of all lists I've seen or used to date, they were either wholly untyped or typed, meaning, in the typed case, all its elements posessed the same type.</li>
+    <li>A Tuple or Ordered Pair is, as it name says, ordered, can be typed or untyped, and is fixed-sized.</li>
+</ul>
+
+<p>First, I don't know whether this exhausts all possible combinations of values for these properties in collections. One of the activities of <i>Limits</i> ("NewDefs") was/is to check!</p>
+
+<p>Second, I'll take that first alternative now out of the way with the <i>Record</i> type. A Record type is a Tuple where its elements are referenced by <i>name</i>. This boils down to, again, a reference system: the names in the Tuple are just strings of characters, and <i>variables</i> in reference systems are (but needn't be limited to) characters, which can be taken as single-character strings, making them equivalent. But it's a curious use, I notice now, of a reference system <i>embedded</i> in a collection (as opposed to referencing elements from <i>outside</i> the collection), but maybe not the only example.</p>
+
+<p>So, to explain, a record type could describe our Graph easily like this:</p>
+
+<p>\(A = (\text{Vertexes: }\{a, b, c\}\text{, Edges: }\{A, B\})\)</p>
+
+<p>Now we know which is which, by name/string variable.</p>
+
+<p>Note it's not a set like \(A = \{V, E\}\). The parentheses notation is close to the traditional Tuple notation \((a, b, ...)\), and this has a reason, for a Record Type is in practice just a named Tuple. To be clear, a Named Tuple differs "a lot" from a Non-named Tuple, namely in that the Non-named Tuple's way of accessing elements is by order/position. Thus, "Tuple" in "Named Tuple" refers more to the quality of having a defined number of elements, than to its form of access. Either way, the distinct form of access sound more different to me than the distinction between having a variable or fixed number of elements, so I prefer the name Record.</p>
+
+<p>Now, hold on to the Tuple. A Tuple is in the typed case different from the Sequence or Set. The typed Tuple is known to have the possibility of arbitrary Types for each element it has. A Sequence or a Set, of the typed variety, both are usually (from the examples I've come in contact with) constrained to a single type for all elements.</p>
+
+<p>This seems a computer-science specific reason. An "object" in a computer has a "memory shape" and the main useful characteristic provided by Sequences and Sets is easy access to all elements, in terms of computer work. This means elements are stored in consecutive positions and the computer has not the need to jump around to collect them all.</p>
+
+<p>Also, an object with a certain "memory shape" is <i>interpreted</i> when it is read in memory by the computer. The space which is reserved in memory for the object to occupy is the total space all of the different values all of its properties could occupy, and not the actual space that instance of the object with its particular property values occupies. But even a value which needn't use all the same bit space is stored in the maximum shape. This provides a consistent shape to <i>reserve memory</i>, specially the <i>contiguous</i> memory described for the sequences and sets.</p>
+
+<p>Otherwise, irregular-shaped or arbitrary-shaped objects are stored arbitrarily in memory; semantically in programming languages, they are different objects, referred to by different variables, and <i>not</i> collections. They <i>can</i> be Records, which are cohesive and can carry themselves other Record objects with variable types, but Records aren't really collections; <b>they are only fixed-sized and not variable-sized.</b></p>
+
+<p>The tests <code>QuantDescrMemImplTests</code> in the <i>Limits</i> project tries to investigate memory layouts, and the <code>QuantDescrImpl</code> namespace tries to implement concretely with Generics (which are very insufficient for this task in <i>C#</i>, but may be feasible in <i>C++</i> or <i>D</i>), but, aside from the computer science description and environment, the Mathematical question arises of a <b>collection with variable types and variable number of elements</b>.</p>
+
+<p>This resembles a bit an <i>untyped</i> collection. But there's a distinction: if a collection would be known to have an element of type \(TA\) and one element of type \(TB\), we could access said elements by their types. Not their positions or names. This opens a third way for collection elements to be referenced in a collection.</p>
+
+<p>In the last example, direct access is possible because we <i>know the types of the elements to be different</i>, but take a case where the types are coincidentally equal, \(TA\). In this case, position can be used. Does this take us back to a by-position exclusive situation? Examine a collection of two volleyballs, and one soccer ball. We can access the volleyballs by position, <i>between only volleyballs</i>, and the soccer ball by its type. Once we access the first volleyball, (or "reach its position", if you will), we know there is only one other volleyball in the collection, so we can then access it by type. Access method varies with an attribute of elements: <i>quantity</i>. (This is the subject of tests in <code>QuantDescrTests</code> to test for interactions between positions and quantities of items.)</p>
+
+<p>What about a collection of two volleyballs, and at maximum two soccer balls? Or a collection of from one to two volleyballs, and one or two soccer balls, depending on whether there is one or two volleyballs in the collection? It quickly becomes evident that we're using <i>statements</i> about elements to define collections, or logical <i>predicates</i>. A collection as such is arbitrarily complex in definition but (it seems) definable, accessible and tractable in operation. Thinking about it now, it is possible a finite number of steps could be defined to access all elements, and a shortest-number-of-steps procedure could be equally defined to traverse all of its elements, in all cases.</p>
+
+<p>This sounds a bit like a stack of predicates: elements are added which satisfy all applied predicates, optionally adding new predicates of their own. Over time, a number of predicates are known to be valid for the entirety of elements of the collection, and the resulting exhaustive access procedure or shortest-path access procedure is hypothetically computable as a function of the collection of predicates.</p>
+
+<p>This implies immediately defining <i>predicates</i>, namely, defining what kinds of operations are allowed in forming a predicate.</p>
+
+<p>Another computable operation on the collection is accessing a determined element by the simplest or shortest access path. This could mean an element could be directly accessible via one of its properties, like <i>type, position, quantity</i>, or compositions of these properties, or it could be \(n\) steps away from a direct access, there, nevertheless, existing a determined path for its access.</p>
+
+<p>The fact that elements are inserted in this collection associated with a validated predicate guarantees that the same predicates can be used to recover elements, notwithstanding the possible validity of the predicate for other elements also. This is not significant logically, but useful in the case of a programming environment in the absence of <i>references to elements</i> and presence of <i>references to predicates</i>.</p>
+
+<!-- <p>This would indicate both an access method for these collections which is statically verifiable and semantic, unlike accessing items by position or query; and a storage method for the results of these accesses that's derivable from the structure of the collections themselves, rather than an arbitrary labeling system like that of variables.</p> -->
+
+<h3>Variable-sized</h3>
+
+<p>The idea of a "variable-sized" object incites a closer look.</p>
+
+<p>Actually, in the computer environments where a computer language runs, variable-sized means <i>growable at runtime</i>. As runtime (runtime is the moment of <i>execution</i> of a program, as opposed to the moment of its <i>definition</i>) objects are <i>allocated</i>, their shape must be known before they're allocated, and as such, their quantity, in the case of a consecutive-allocation collection (when their size becomes part of their shape as well). This is a limitation restricted to the physical implementation of computers. In practice, variable-sized objects are implemented as fixed-sized objects which grow to new fixed sizes at runtime. It's only in the programming language that the semantics of "variable size" are present, and it is "virtual" and not verifiable unless the programming language embeds <i>size</i> into its <i>type</i> definition, as in the case of "dependent type" languages, meaning "where types depend on variables" and the compiler can check on the <i>sizes</i> of collections at <i>design</i> time.</p>
+
+<p>In Mathematics, two examples include a set of points \(A = \{a \in X \mid a > b\}\), which is taken to hold a variable number of elements, and a Graph \(B = \{V, E\}\) <a class="ref" href="#ref">[2]</a>, which counts a definite number of elements \(2\).</p>
+
+<p>It could be mentioned that the set \(A\) is expressed above in its <i>intensional</i> form. The intensional form is a <i>definition</i>, as opposed to the <i>contents</i>. The contents of the set \(A\) is not known a priori. It could hold any combination of elements. The set \(B\), on the other hand, is <i>intensionally</i> and <i>extensionally</i> (at least in its first level) the same: it holds two definite elements \(V\) and \(E\). If \(V\) and \(E\) are also intensionally defined, for example, by being \(V=\{a, b, c\}, E=\{(a, b), (b, c)\}\), then \(B\) is <i>as a whole</i> a priori known. It can then be observed that a structure such as a set can be partially intensionally defined, and partially extensionally defined, with this being variable in each of its levels.</p>
+
+<p>Despite the reason in the computer implementation being unrelated (or is it more related than I think?), this distinction seems analogous in both uses. In both cases there are two clear stages of "a priori" and "actual" evaluation which carries materializations and, in a sense, the operation carried in each stage being of <i>enumeration</i> of <i>object instances</i> which can be taken to be <i>in existence</i> at a certain point in the progress of such evaluation.</p>
+
+<p>This justifies the term being used in both applications but it is also of note the following correspondence. <b>A variable-sized object is intensional and a fixed-size object, extensional.</b> A variable-sized object is formed <i>by definition</i> of undefined elements, while a fixed-size object is formed, <i>by definition</i>, of defined elements. As an example, \(V\) in \(B\) is <i>defined</i>, because it is represented by a variable \(V\) which is different to \(E\), the only other element. In \(A\), (while \(b\) is defined), \(a\) represents more than one element, namely, all elements which satisfy the predicate; \(a\) is <i>undefined</i>.</p>
+
+<p>This makes the whole of \(A\) undefined and intensional. This is a <i>per-level</i> evaluation in the <i>tree</i> that is the Set collection: in the case of \(B\), \(V\) and \(E\), in their turn, are <i>defined</i> or <i>undefined</i> depending on their definitions; at the first <i>level</i> in the evaluation of \(B\), \(V\) and \(E\) are unique as per the criteria above and thus defined. When a Set level is <i>undefined</i>, any of its elements and sub-elements in all branches are also undefined, as illustrated by \(A\); if \(a\) in \(A\) were defined <i>sets</i>, \(a\) in itself would still be undefined leaving \(A\) undefined. Thus, <b>if an intensional Set \(S\) is an element of a Set \(T\), \(T\) is intensional</b>. As a corollary, <b>if a set \(T\) is extensional, it features no intensional elements</b>.</p>
+
+<p>To be continued in Part 2.</p>
+
+<!--This avoids having to which is totally irrelevant to Mathematics.</p>-->
+
+<a name="ref"><h3>References</h3></a>
+
+<ol>
+    <li><a href="https://www.youtube.com/watch?v=hBcWRZMP6xs&t=909s" target="_blank">Rudin, Walter B. 1990. Set Theory: An Offspring of Analysis (YouTube).</a></li>
+    <li>Chartrand, Gary. 1984. Introductory Graph Theory. New York: Dover Publications.</li>
+</ol>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

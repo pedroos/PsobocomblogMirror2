@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Continuity and syntactic infinitesimal - Pedro Sobota</title>
+  <meta property='og:title' content='Continuity and syntactic infinitesimal - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>Continuity and syntactic infinitesimal</h1>
+<div class="blogtags"><span class="blogtag algo">Mathematics</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>August/2020</p><hr/>
+</div>
+
+<p>We'll try to explain the \(\varepsilon, \delta\)-definition of continuity for a function of one independent variable.</p>
+
+<p>Let's take a look at the formal definition of continuity at a point:</p>
+
+<blockquote class="special">A function \(f:A \rightarrow \mathbb{R}\) defined for the set \(A \subset \mathbb{R}\) is continuous at the point \(a \in \mathbb{R}\) when, for all \(\varepsilon \gt 0\), there is a \(\delta \gt 0\) such that \(x \in A, \vert x-a\vert \lt \delta\) implies \(\vert f(x)-f(a)\vert \lt \varepsilon\).</blockquote>
+
+<p>One way to interpret this statement informally is to say there should be no gaps in the image of the function between any two points in the domain of the function.</p>
+
+<p>Another way is to say the function is <b>discontinuous</b> at a point, if there is a growth between it and another "close enough" point that is larger than an <i>infinitesimally small</i> \(\varepsilon\).</p>
+
+<p>Discontinuity only occurs in functions defined over infinite sets.</p>
+
+<div style="margin-left: auto; margin-right: auto; width: 480px; height: 335px;">
+    <!-- <img src="proving_discontinuity_epsilon_plot.png"/><br/> -->
+    <img src="img/proving_discontinuity_epsilon_plot.svg" width="480"/><br/>
+    <div class="figlabel" style="text-align: center;">Fig. 1. Discontinuous function at \(x=b\)</div>
+</div>
+
+<p>In the above graph, the function at \(b\) is discontinuous, and at \(a\), continuous.</p>
+
+<p>Visually, we can spot the gap, but how to make it formal? In other words, how to give a precise definition, irreducible and general?</p>
+
+<p>We use \(\varepsilon\) as a <i>measure</i> of an infinitely small quantity, by setting it to \(\gt 0\). The <i>actual</i> value of \(\varepsilon\) doesn't matter.</p>
+
+<p>Then, start opening intervals in the function domain and checking the change in the function's image: over <b>any but one</b> intervals in the domain, the change in the function's image could be anything: it could be lesser or greater than a chosen \(\varepsilon\).</p>
+
+<p>However, <i>close enough</i> to the point checked for discontinuity, the function will be expected to change by <i>less than</i> any number greater than zero.</p>
+
+<blockquote class="special">"Close enough" is a terminology in Analysis for taking a point "the closest we can get" or "the closest we need to get" to another point, to observe a behavior, as opposed to "next point" or "neighbor point", applicable to a countable set.</blockquote>
+
+<p>This expectation represents the expectation that the "next" (virtual) point in the infinite string of points that compose the continuous line is there. Since this is not a countable set, the check is performed as there being <i>any</i>, or there <b>existing</b> a point, in the function's image inside an <i>"any size greater than zero"</i> interval. By choosing a value for \(\varepsilon\), a number larger zero, but infinitely small, is created. "Choosing a value" for \(\varepsilon\) is represented by the quantification "for all \(\varepsilon \gt 0\)".</p>
+
+<p>After opening an infinitely small interval in the domain, we check that the corresponding jump is the function's image is also an infinitely small interval. If not, the jump is an actual "number", with a "length"; and represents a gap in the line and in the function.</p>
+
+<p>The check for <i>all</i> \(\varepsilon\) to form an interval in the function image's set such that the change in the function's image is included in it is <b>more than sufficient</b>: <i>any</i> value for \(\varepsilon\) would suffice, conclusively, to determine continuity at a certain \(x\). \(\varepsilon\) is, in this sense, a <i>variable</i> representing an infinitely small number, which is not evident in the definition of continuity, from the need that <i>all</i> \(\varepsilon\) satisfy a condition: the forall quantifier is, in this case, guaranteeing that the smallest possible \(\varepsilon\) is considered, rather than guaranteening that all \(\varepsilon\)s are considered. If this would not be the case, a large value for \(\varepsilon\) where the entirety of the function's image, for example, would be included, could be chosen.</p>
+
+<p>The <i><a href="https://en.wikipedia.org/wiki/Infinitesimal" target="_blank">infinitesimal</a></i>, as I know it, was a quantity defined to be an infinitely small quantity. It seems to have been unfavored because of a connotation of representing a <i>length</i>, or not being rigorously definable. But I argue for its syntactic usefulness. Let's observe that, beyond \(\varepsilon\), \(\delta\) also represents an infinitely small quantity (\(n \gt 0 \in \mathbb{R}\)) and substitute these terms by infinitesimals in the definition of continuity.</p>
+
+<blockquote class="special">A function \(f:A \rightarrow \mathbb{R}\) defined for the set \(A \subset \mathbb{R}\) is continuous at the point \(a \in \mathbb{R}\) when \(x \in A, \vert x-a\vert \lt\) infinitesimal implies \(\vert f(x)-f(a)\vert \lt\) infinitesimal.</blockquote>
+
+<p>Syntactically, this seems to let go of the existential assertion of \(\delta > 0 \in \mathbb{R}\), which seems to be an always-existant point anyway, and I'd argue makes clearer the actual <i>work</i> implied by the definition: that each infinitely small change in the domain should produce a corresponding infinitely small change in the image. (The quantified-expressions had me treading the wrong path: they for some reason remind me of processes rather than variables.)</p>
+
+<p>The infinitesimal can't be rigorously defined:</p>
+
+$$\text{infinitesimal}=n>0 \in \mathbb{R} \mid n \lt m, \forall m \in \mathbb{R}\text{.}$$
+
+<p>As soon as an \(n\) is fixed, a smaller number is observed in the real line, so this isn't a valid expression. The infinitesimal, still,  could be perhaps used syntactically to bypass writing quantified \(n \gt 0\) variables when the quantifier's used solely as a tool to define an infinitely small quantity.</p>
+
+<hr size="1"/>
+
+<p><span class="addendum">Addendum (Sep. 20):</span> Using the original definition, it is necessary to check <i>every</i> \(\varepsilon\) for a <i>single</i> \(\delta\) which features the property that for all points in the domain in between it and the point checked for continuity, the corresponding change in the image of the function is <i>smaller</i> than \(\varepsilon\).</p>
+
+<p>Let's follow the steps.</p>
+
+<ol>
+    <li>A point \(b\) is chosen.</li>
+    <li>An \(\varepsilon\) is fixed.</li>
+    <li>\(x\)-intervals are opened around \(b\).</li>
+    <li>We want all \(x_n\)-subintervals 'contained' in our \(x\)-interval to produce changes in the function that are smaller than \(\varepsilon\).</li>
+    <li>If there is one such \(x\)-interval where all \(x_n\)-subintervals have this property, then the \(\varepsilon\) 'passed' the test.</li>
+    <li>If all \(\varepsilon\)s pass, the function is continuous at \(b\). If one doesn't pass, the function is discontinuous at \(b\).</li>
+</ol>
+
+<p>This definition justifies \(\text{for all }\varepsilon \gt 0\) and \(\text{exists }\delta \gt 0\). Let's analyze it.</p>
+
+<p>First, since \(\varepsilon\) is universally quantified, we can't prove continuity: we must prove discontinuity by choosing a problematic \(\varepsilon\). (We can't test every \(\varepsilon\) because there are infinitely many of them.)</p>
+
+<p>Second, after \(\varepsilon\) is chosen, we want to find <i>one</i> \(\delta\) for which every \(x_n\)-subinterval has the property. The "every" is another universal quantification: that of every \(x_n\) in the domain. Thus, again every \(x_n\) can't be verified: there are infinitely many of them. The only hope is to find a problematic \(x_n\); in this case, one for which the jump in the image in its interval is larger than or equal to \(\varepsilon\).</p>
+
+<p>Still, finding a problematic \(x_n\) would only invalidate a single candidate \(\delta\). Arbitrarily many failed \(\delta\)s could be found: fix an \(\varepsilon\) and move far away to one side with the \(\delta\) to find a point in the function where its difference to the function at \(b\) is higher than \(\varepsilon\). Generally it would be expected that by moving far away enough in a non-constant function, such difference would be found, so this is trivial. But how much far away is far away </i>enough</i>? The answer is that <i>any</i> far away could be far away enough; the function could grow fast enough around \(b\) (and still be continuous). Thus we're only interested in the <i>close enough</i> point to \(b\): if the function <i>immediately</i> grows by more then \(\varepsilon\), then that's a real discontinuity. Note this is <i>immediately</i>, not <i>quickly</i>, around \(b\). Also, we ask <i>what \(\varepsilon\) is good enough</i>? Similarly, the answer is <i>any \(\varepsilon\)</i> could <i>not</i> be enough as a ruler. By increasing \(\varepsilon\), we allow greater variation in the function to pass as continuous. The point here is to examine the <i>smallest possible \(\varepsilon\)</i>: if the change is larger than that, then that's a real discontinuity. The question may be asked, <i>"why not larger than zero then?"</i> The answer is "because the expected change <i>is</i> larger than zero: it is a <i>minimum</i> change". If all expected change was zero, only constant functions would pass as continuous, obviously. The only way to express an infinitely small value, larger than zero, without defining infinitesimal, is using the expression <i>all quantities greater than zero</i>, which includes the infinitely small quantity in it. This is the purpose of these quantified variables.</p>
+
+<p>In other words,</p>
+
+<ul>
+    <li>If a big enough \(\varepsilon\) is chosen, any change in the function could fit in it. So, obviously, we're not interested in arbitrary \(\varepsilon\)s. They are meaningless. Neither are we interested in <i>all</i> \(\varepsilon\)s: these <i>contain</i> all arbitrary \(\varepsilon\)s. What remains is the infinitely small \(\varepsilon\).</li>
+    <li>If a big enough \(\delta\) is chosen, any change in the function could be found for some \(x\)-subinterval in it. So, similarly, we would not interested in arbitrary \(\delta\), but unlike \(\varepsilon\), \(\delta\) is existentially quantified. This means any <i>particular one</i> of them is not interesting, as long as one is considered. Their value is meaningless. The only relevant property that remains, then, is that of being \(\gt 0\), meaning they refer to the infinitely small quantity.</li>
+</ul>
+
+<hr size="1"/>
+
+<p><span class="addendum">Addendum (Oct/20)</span>: It is possible "go in reverse" in a sense and begin by observing that the resulting distance in the image must be smaller than \(\varepsilon\) for all \(\varepsilon \in \mathbb{R}\). This is itself informs we're looking for the smallest Real larger than zero (and nothing else).</p>
+
+<p>From that, we consider which change in the domain we're examining for such infinitesimally small change in the image. It could be three things, in terms of distance:</p>
+
+<ol type="a">
+    <li>The zero change;</li>
+    <li>The infinitesimally small change;</li>
+    <li>Any other change, meaning an arbitrary non-zero and non-infinitesimally small Real.</li>
+</ol>
+
+<p>Let's examine each possibility.</p>
+
+<p>a) is trivially non-interesting.</p>
+<p>c) is non-interesting because an arbitrary change in the image of the function at an arbitrarily distance in the domain could just be from the function's normal course; the function could still be continuous between the point and it.</p>
+<p>b) is what remains.</p>
+
+<p>This is enough to conclude the definition is only about looking at the change in the image from the infinitesimally small change in the domain, and checking it's also infinitesimally small.</p>
+
+<p>This characterizes this form of definition as analogous to definining:</p>
+
+<blockquote>
+    1. "The terrain around where someone's at is flat in a direction (not considering the Earth's curvature) if, for all numbers of steps taken in that direction, there is one number of steps that is smaller than them all and taking this number of steps implies that, for all possible changes in the terrain, there is a change in terrain that is smaller than them all and this is the change observed."
+</blockquote>
+
+<p>Where this definition could be instead phrased:</p>
+
+<blockquote>
+    2. "The terrain around where somebody's at is flat in a direction (not considering the Earth's curvature if) if the smallest possible step is taken in that direction, and the change in the terrain is the smallest possible."
+</blockquote>
+
+<p>The definition 1) is employed because "smallest" is not logically definable in the theory in question (Analysis): there is only formally the concept of "smaller than". So, to be rigorous, 1) <i>has</i> to be employed.</p>
+
+<p><i>Correction: smallest </i>is<i> definable for closed sets; but not for an open set like the set of numbers greater than zero &mdash; the set in question &mdash; for example.</i></p>
+
+<p>However, if we define "smallest" non-logically, that is, as a "figure of language" of sorts, than we can phrase theorems in Analysis in the form 2) instead of 1).</p>
+
+<p>This seems, to me, first, more a problem of examining <i>why</i> there doesn't exist, or can't exist, a "smallest"; than of using an elaborated construction to work around it, even in a formal setting.</p>
+
+<!-- <p>But for the me <i>student</i>, the question is, for a new student, which is the greatest cost, to use the "figure of language" path, or to study the body of theorems in the 1) form?</p>
+
+<p>A second question: should Mathematics be taught fully rigorously from the first time? I infer if a <i>linear</i> mode of learning is adopted, then it <i>must</i>.</p>
+
+<p>Even then, it's disputable whether even Mathematics in the level of formalism of definition 1) is fully rigorous. I don't know for sure, but I've heard there are alternative rigorous foundations which everyone agrees would be too much to teach to first-time learners. And I also feel, as a programmer, that full rigour would be more productively used in computer-assisted environments; for one, more complex proofs would be within reach.</p>
+
+<p>And, also, there is the mode of <i>non-linear learning</i>, where you could learn more informally first, then revisit the material and learn more formally later, and so on.</p>
+
+<p>The origins of the use of 1) in teaching I won't give an opinion here, but I'll leave for a future article.</p> -->
+
+<hr size="1"/>
+
+<p><span class="addendum">Addendum (Nov. 20)</span>: After writing, I had an initial look at <i>non-standard analysis</i>, which seems to be a branch of Mathematics proposing to formalize the Infinitesimal.</p>
+
+<p>I came to it (re-visited it, actually) with the hope that it would try to solve primarily from a pedagogical perspective, but it seems not to be the case. To be rigorous, it <i>extends the number system</i>, which I'm <i>already wary of</i> &#128512;.</p>
+
+<p>By the way: finally understading <i>Emojis</i> as fully formal characters and not some additional layer, I shall feel free to use them :).</p>
+
+<p>Here is an excerpt from <a class="ref" href="#ref">[1]</a>, p. 17:</p>
+
+<blockquote class="special">An infinitesimal is a 'number' that is smaller than each positive real number and larger than each negative real number, so that in the real number system there is just one infinitesimal, i.e. zero. But most of the time only nonzero infinitesimals are of interest. This is related to the fact that when in the usual limit definition \(x\) is tending to \(c\), most of the time only the values of \(x\) that are different from \(c\) are of interest. Hence the real number system has to be extended in some way or other in order to include all infinitesimals.</blockquote>
+
+<p>My informal, didactic idea adopted instead a <i>single</i>, constant infinitesimal larger than zero and smaller than any other real number.</p>
+
+<p>From <a class="ref" href="#ref">[2]</a>:</p>
+
+<blockquote class="special">These new numbers will have the property that although different from \(0\), each is smaller than every positive real number and larger than every negative real number. (...) These new infinitesimals, once suitably defined, will enable us to solve general problems of slopes of tangents and areas of regions with extraordinary ease.</blockquote>
+
+<p>At a point, it becomes necessary to look at the "why" of defining number systems; there seems to be a point where it becomes more about the behaviors and operations than about <i>quantities</i>. Which I'd argue is happening as early as the <i>real</i> numbers, maybe. This will be touched upon in a future article. <!--I've written something about this is in <a class="ref" href="#ref">[3]</a>.--></p>
+
+<hr size="1"/>
+
+<p><span class="addendum">Addendum (Dec. 20)</span>: In the very informative work <a class="ref" href="#ref">[3]</a>, the author gives historical context and an introduction to smooth infinitesimal analysis (SIA). (SIA is a sistematization of infinitesimals into a number system.) We'll comment on some passages of note.</p>
+
+<blockquote class="special">
+    Cauchy mentions a variable quantity with numerical values (...) in a 'dynamic' way, unlike the 'static' type of Leibniz and Euler, where \(\mathop{dx}\) is a fixed, if indeterminate, variable.
+</blockquote>
+
+<p>And the continuation:</p>
+
+<blockquote class="special">
+    Cauchy uses small numbers \(\delta\) and \(\varepsilon\). The extensive use of the 'delta-epsilon' form of analysis originates with Weierstraß (1815-1897), who introduced most of the rigorous foundations of analysis still taught today.
+</blockquote>
+
+<p>About the first quote, <i>type</i> seems an appropriate word to characterize the variety of infinitesimally small quantities in consideration. Now taken in a slightly more formal 'programming language' context, it helps me to say the \(\delta, \varepsilon\) statement form seems obviously "less typed" than a symbol form such as \(\mathop{dx}\). In a programming language, symbols are used to represent concepts to obviate the need to repeat statements. In an object-oriented language, if a symbol is not only a <i>quantity</i>, but an <i>object</i>, then it has a <i>class</i> which describes <i>behavior</i> around the object (the object is said to have a "type"). This would be more-or-less what a \(\mathop{dx}\) symbol would achieve in mathematical notation, as opposed to a "verbatim" \(\delta, \varepsilon\) statement. Roughly, this corresponds to the distinction between <i>procedural</i> and <i>object-oriented</i> programming, where the latter is given as a solution to the former; a form to structure behavior around concepts that provide important semantic advantages.</p>
+
+<p>The Weierstraß formalization is identified with a context and period of formalization of, respectively, Functions by Cauchy, and Sets by Cantor. It is notable that \(\delta, \varepsilon\) allows limit definition by the order relation \(\lt\), where with the Set definition of number systems it is now possible to use the same order relation \(\lt\) for integer, fractional or irrational numbers; that is, real numbers under the same classification. Defining functions as relations between Sets now brings the order relation \(\lt\) within the realm of functions, whereas with a static (that is, not as a <i>number</i>) definition of infinitesimally small quantity, such as \(\mathop{dx}\), such quantity is not directly comparable with numbers by the order relation \(\lt\), which seems to be the "problem of formality" with it, in fact, already in Leibniz:</p>
+
+<blockquote class="special">
+    Leibniz was aware of the criticism he would get for using inﬁnitesimals, so in his papers, he hid their use and introduced \(\mathop{dx}\) as a ﬁnite quantity, arbitrarily ﬁxed a priori.
+</blockquote>
+
+<!-- <blockquote>Needless to say, this was in a time where such criticism would probably come in a form of public disfavour from important religious authorities who could then proceed to withdraw funding or support, a more important situation than a modern blog or Twitter fight.</blockquote> -->
+
+<p>This \(\lt\) analysis is meant to say \(\mathop{dx}\) is <i>not</i> formal, inasmuch as the Set definition of numbers as related by the order relation \(\lt\) <i>is</i> formal. This is not to say this number system definition is <i>not</i> formal; but that in a hypothetic system where it is not used and numbers are not defined in this way (or not defined at all!), then this "problem" with infinitesimals is lifted; that is, the \(\lt\) comparison seems to be the only dependence of formality of such construction in relation to this number system.</p>
+
+<blockquote class="special">
+    At the time, the concept of functions was not yet conceived. Leibniz considered a curve to be a polygon with an inﬁnite number of inﬁnitesimal sides, an infinitangular polygon.
+</blockquote>
+
+<p>I'm now more suspect of mentions of <i>formalization</i>, because I now read <i>"formalization"</i> as <i>"formalization into the Set form of the real number system"</i>, where before I read it as inclusion into some kind of truth. Turns out, the real number system has a history of its own, and the geometric perspective in play into Leibniz's theories bears investigation because of classical geometry being an example of a <i>pre-Set form of real number system</i> which appears to already contain a lot of the problematique of the <i>post-Set form of real number system</i>.</p>
+
+<p>For example, the above cited characterization of a curve, which I fully appreciate, is analogous to the <i>circle as polygon</i> &mdash; an infinite-sided polygon which, nevertheless by having a <i>larger</i> or <i>smaller</i> quantity of infinite sides by virtue of being a larger or smaller diameter circle, contains the "passage into the uncountable"; that is, the possibility of many-sized infinities.</p>
+
+<p>In which way geometry is distinct from the real number system? To make it clear, since it has no concept of sets or functions, it "barely" can be said to contain a concept of "number" as well; as we all know, "numbers" in geometry are taken to be measurements, and <i>irrationals</i> are, by not being measurable, considered distinct from numbers as measurements. It could well be taken that "numbers" in this system could be conceived as referring to the <i>measurable</i> quantities only, and the <i>immeasurable</i> quantities considered other kinds of entities entirely. This'd free the system from the need to unify the entities as "numbers" (maybe even save the chap who discovered irrationals in Greece😭). Nevertheless, geometry can, and is, still used to solve problems &mdash; even continuous ones &mdash; the fact that Leibniz's Calculus as being of geometrical nature furnishing evidence of so.</p>
+
+<p>Such system could maybe be shown to be more amenable to definition in an Object Oriented way (as much as a science of Object Orientation exists); thus offering the possibility of freedom of organization into its own structure. The question poses itself how much could such a system be "stretched" in its sophistication, so as to give solutions to ever more complicated problems?</p>
+
+<!--
+<p>Let's take the point of discontinuity, \(b\). Let's consider the \(y\)-axis and take a point in this set which is <i>in the gap</i>: \(y_g=2\). The (vertical in the graph) <i>distance</i> from this point to \(f(b)=1\), which we will call \(\varepsilon\), is \(1\).</p>
+
+<p>Note we're looking for arbitrary points in the <b>image set</b> rather than the image. We're not coming from points in the image of the function; we're looking at arbitrary intervals, in this case, in the \(y\)-axis, represented by the set \(\mathbb{R}\). These intervals for a point \(n\) are \([f(n),f(n)\pm\varepsilon]\); the plus-or-minus is because the <i>distance</i> is considered.</p>
+
+<p>For \(\varepsilon=1\) which, from \(x=b\), puts us in the gap in the image of the function, let's start <a name="image_change_comparison">[1]</a> comparing <i>changes in image</i>, always around \(b\), to \(\varepsilon\). For example, let's take the change in image, in <i>modulus</i> (because we're interested in distances), from \(f(b)\) to \(f(a)\). Since \(f(a)=5\), \(\vert f(b)-f(a)\vert=5-1=4\). This change is \(\gt \varepsilon\): \(4\gt1\). So, it does not assert continuity, or asserts discontinuity, for \(\varepsilon=1\).</p>
+
+<p>What does 'asserting discontinuity' mean? At a certain \(x\), for some \(\varepsilon\) (remember, \(\varepsilon\) is a <i>vertical</i> distance in the graph), finding even one interval in \(x\) where the difference in distance between the images of the two points is \(\lt \varepsilon\) 'asserts' continuity, or 'refutes' discontinuity, at \(b\) for that \(\varepsilon\). Finding none such interval would 'assert discontinuity' for \(\varepsilon\).</p>
+
+<p>To establish continuity for the whole function at \(x\), we must 'assert continuity' at \(x\) for all \(\varepsilon\). If <i>some</i> \(\varepsilon\) is 'continuity-refuted', the function at \(x\) is not continuous.</p>
+
+<p>Since \(\varepsilon\) is forall-qualified we must try to continuity-refute some \(\varepsilon\), instead of continuity-asserting all \(\varepsilon\). In other words, we try to prove discontinuity, not continuity.</p>
+
+<h3>Rewriting the definition</h3>
+
+<p>Another straightforward way to to express the search for a <i>negative</i> is to rewrite the definition.</p>
+
+<p>Let's negate the original statement for \(\varepsilon\), changing the quantifier to existential, and preserving the existential quantifier for the statement for \(\delta\):</p>
+
+$$\text{cont}(x) = \forall a : \exists b \mid P(a, b, x) \Rightarrow$$
+$$\neg\text{cont}(x) = \neg(\forall a : \exists b \mid P(a, b, x)) \Rightarrow$$
+$$\text{discont}(x) = \exists a : \neg(\exists b \mid P(a, b, x))\text{.}$$
+-->
+
+<!--
+<p>Defining </p>
+
+$$P=(P1(x) \land P2(x, a, \delta)) \rightarrow P3(x, a, \varepsilon)=$$
+$$(P1 \land P2) \rightarrow P3\text{,}$$
+
+<p>we get:</p>
+
+$$\neg P=\neg((P1 \land P2) \rightarrow P3)=$$
+$$\neg (P1 \land P2) \rightarrow \neg P3=$$
+$$(\neg P1 \lor \neg P2) \rightarrow \neg P3\text{.}$$
+
+<p>Further defining:</p>
+
+$$P1=x \in A \Rightarrow \neg P1=x \notin A\text{,}$$
+$$P2=\mid x-a\mid \lt \delta \Rightarrow \neg P2=\mid x-a\mid \geq \delta\text{,}$$
+$$P3=\mid f(x)-f(a) \mid \lt \varepsilon \Rightarrow \neg P3=\mid f(x)-f(a) \mid \geq \varepsilon\text{,}$$
+-->
+
+<!--
+<p>The definition becomes:</p>
+
+<blockquote>A function \(f:A \rightarrow \mathbb{R}\) defined for the set \(A \subset \mathbb{R}\) is <b>discontinuous</b> at the point \(a \in \mathbb{R}\) when <b>there is an</b> \(\varepsilon \gt 0\) for which <b>there is a</b> \(\delta \gt 0\) such that \(x \in A, \vert x-a\vert \lt \delta\) implies \(\vert f(x)-f(a)\vert \gt \varepsilon\).</blockquote>
+
+<h3>At the gap</h3>
+
+<p>Back to our example, at a particular \(\varepsilon=1\) which we know must show discontinuity for \(x=b\), there must be no continuity-assertable intervals in the \(x\)-axis. We have looked at the interval \([a,b]\), but we extend our observation to <i>all</i> intervals with \(b\) as an endpoint: <i>none</i> are continuity-assertable.</p>
+
+<p>The problem lies exactly in the gap. At the point where the discontinuity occurs (\(b\)), the image of the function shows a <i>jump</i>. Consider \(b_2\), the <i>closest</i>, by distance, point to \(b\) (or, in Analysis terms, a <i>close enough</i> point), and the interval \([b, b_2]\). The jump from the image value of \(b\) to the image value of \(b_2\), or \(\vert f(b_2)-f(b)\vert\), is still larger than \(\varepsilon=1\). And this point is, obviously, in <i>every</i> interval opened from \(b\). This shows a permanent continuity-refuted interval from \(b\) for \(\varepsilon=1\); this denies the possibility of there not being any <i>non-continuity-refuted \(\varepsilon\)</i> for \(x=b\), thus characterizing \(f(x)\) as <i>discontinuous</i> at \(b\).</p>
+
+<p>Obviously, we started right off from the problematic \(\varepsilon\) value, so we got at first try to the negative result. Had we sampled other values for \(\varepsilon\), we could have obtained non-negative results. Individual non-negative results, though, would not be enough to invalidate the general result for \(x=b\).</p>
+
+<p>Let's examine the continuous point in the function, \(c\).</p>
+
+<p>Once again, we try to prove discontinuity, or disprove continuity.</p>
+
+<p>Let's take particular cases: following <a href="#image_change_comparison">[1]</a>, for \(\varepsilon=2\), the interval \([b,c]\), \(\vert f(c)-f(b)\vert=\vert 4-1\vert=3\gt\varepsilon\). This doesn't assert continuity at \(\varepsilon=2\), because the opposite inequality would need to hold. It doesn't refute continuity at \(\varepsilon = 2\), either, as this would require the same inequality being true of <i>all</i> intervals with \(c\) as endpoint.</p>
+
+<p>For \(\varepsilon=4\), \(\vert f(c)-f(b)\vert=\vert 4-1\vert=3\lt\varepsilon\). This asserts continuity at \(\varepsilon=4\). This does not, however, assert continuity for \(x=c\). That would require the same inequality being true of all \(\varepsilon\) for \(x=c\).</p>
+
+<h3>Algorithm</h3>
+
+<p>Here is an algorithmic summary of the procedure.</p>
+
+<ul>
+    <li>Choose a point \(b\) to check in the domain.</li>
+    <li>Fix an \(\varepsilon \gt 0\).</li>
+    <li>Look for an interval in the domain with and endpoint on \(b\) whose range in the function's image is larger than the distance between \(\varepsilon\) and the image of \(b\).</li>
+    <li>If such an interval exists, the function is discontinuous at that point.</li>
+</ul>
+
+<p>\(\delta\): If the domain is an infinite set, when looking for the interval, the \(\delta\) is a close enough point to the point being checked in the domain. If the domain is a finite set, then the \(\delta\) are the points next to the point being checked for a discontinuity.</p>
+
+<p>Given the algorithm, computational considerations can be made.</p>
+
+<p>Depending of the cardinality of the domain and image sets, availability of a total or partial coordinate where the discontinuity occurs is assumed:</p>
+
+<ul>
+    <li>If the image is an infinite set, then \(\varepsilon\) is a point in the image which is known to be located in the discontinuity.</li>
+    <li>If the domain is an infinite set, then point to be checked for discontinuity is a point known to have a discontinuity in its image.</li>
+</ul>
+
+<p>This coordinate could be taken as being an input value into the algorithm. To use a coordinate for an axis characterizes the algorithm as "testing" for that axis; to not use it, as "searching".</p>
+
+<p>Searching and testing are independent for each axis. A function could be <i>tested</i> for \(\varepsilon\) and <i>searched</i> for a point of discontinuity, for example.</p>
+
+<p>The following implications are derived:</p>
+
+<ul>
+    <li>If the image set is infinite and a candidate \(\varepsilon\) is not present, (dis)continuity is not determinable.</li>
+    <li>If the domain set is infinite and a candidate point of discontinuity is not present, (dis)continuity is not determinable.</li>
+    <li>If both the image set and domain set are finite, discontinuity is always determinable.</p>
+</ul>
+
+<p>We'll try to implement a version of the algorithm for finite sets.</p>
+-->
+
+<!-- <p>In a future article, we'll be looking at options to prove continuity from the \(\varepsilon\) definition.</p> -->
+
+<!-- https://www.geogebra.org/m/QRN3vK35 -->
+
+<!-- <p>Para um dado \(x\), achar um \(\varepsilon\) para o qual não exista um \(\delta\) para o qual todas as distâncias entre  \(x\) e \(\delta\) produzam distâncias entre as imagens de \(x\) e \(\delta\) menores que \(\varepsilon\).</p> -->
+
+<!--<p>Let's check the conditions around \(x=b\), a point of known discontinuity.</p>
+
+<p>Let's sample a value, \(y_1=2\), in the \(y\)-axis, which is <i>in the gap</i>. The point is in the <b>set of the image of the function</b>, as opposed to <i>the image of the function</i>. This distinction is very important &mdash; the point <b>does not exist in the function's image</b>; but it exists in the real line which is the base set of the \(y\) axis.</p>
+
+<p>Let's take a distance from this value
+
+<p>Let's open intervals to either side of \(b\), observing the corresponding values in the image of the function. For example, at \(x=a\), \(y=2\). Let's check the change in the image values \(f(a)-f(b)\) between those two \(x\) values.</p>
+
+<p>At \(x=b\), \(y=1\). Then, the distance between the \(y\) of \(a\) and \(b\) (\(\vert f(a)-f(b)\vert\)) is \(1\).</p>
+
+<p>Continuously comparing the distance between the images of the points and any displacement in the image axis at all.</p>-->
+
+<a name="ref"><h3>References</h3></a>
+
+<ol>
+    <li><a href="https://www.rug.nl/research/som-ri/publications/ponstein.pdf" target="_blank">J. Ponstein, Nonstandard Analysis, 2000 (SOM Research Institute)</a></li>
+    <li>James M. Hendle, Infinitesimal Calculus. The MIT Press, 1979.</li>
+    <!--<li><a href="limits_an_exploration_2.html#number_crisis">A type crisis in the numbers</a>, from this blog</li>-->
+    <li><a href="img/jl_sia.pdf" target="_blank">J. Lamers, Smooth Infinitesimal Analysis, Utretcht University, 2009</a> (original location lost).</li>
+</ol>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

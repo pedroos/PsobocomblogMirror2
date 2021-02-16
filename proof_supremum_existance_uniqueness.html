@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>&epsilon;-supremum existence and uniqueness with axiom of completeness (proof) - Pedro Sobota</title>
+  <meta property='og:title' content='&epsilon;-supremum existence and uniqueness with axiom of completeness (proof) - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>&epsilon;-supremum existence and uniqueness with axiom of completeness (proof)</h1>
+<div class="blogtags"><span class="blogtag math">Mathematics</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>May/2020</p><hr/>
+</div>
+
+<p>We'll try and prove with the axiom of completeness that \(A \subset \mathbb{R}\) has an &epsilon;-supremum. &epsilon;-supremum means this is a definition of supremum as an upper bound satisfying an &epsilon;-clause.</p>
+
+<p>Definition: \(u \in \mathbb{R}\) is an upper bound of \(A\) if:</p>
+
+<ul>
+    <li>\(u \geq a, \forall a \in A\)</li>
+</ul>
+
+<p>Definition: \(u\) is a supremum of \(A\) if:</p>
+
+<ul>
+    <li>\(u\) is an upper bound of \(A\)</li>
+    <li>\(\exists a' \in A \mid u - \varepsilon \lt a' \lt u, \forall \varepsilon \gt 0, \varepsilon \in \mathbb{R}\). <span class="notebox">(See "the &epsilon; scan" below).</span></li>
+</ul>
+
+<p>Axiom of completeness:</p>
+
+<ul>
+    <li>Let the sets \(A, B \subset X\) such that \(X\) is ordered.</li>
+    <li>If \(b \geq a, \forall a \in A, \forall b \in B\), then</li>
+    <li class="nobu">
+        <ul>
+            <li>\(\exists c \in X \mid a \leq c \leq b, \forall a \in A, \forall b \in B\).</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Proof steps:</p>
+
+<h3>Part 1</h3>
+
+<ol>
+    <li>Let \(A\) be any subset of \(\mathbb{R}\). Then, \(A\) is bounded from above.</li>
+    <li>Let \(U\) be the set of all upper bounds of \(A\). By the definition of upper bound, \(u \geq a, \forall u \in U, \forall a \in A\).</li>
+    <li>By the axiom of completeness, then \(\exists c \in \mathbb{R} \mid a \leq c \leq u, \forall a \in A, \forall u \in U\).</li>
+    <li>Since \(c \geq a, \forall a \in A\), \(c\) is an upper bound of \(A\).</li>
+    <li>Since \(c \leq u, \forall u \in U\), \(c\) is the lowest such upper bound. <span class="notebox">(If we were to define supremum as the lowest upper bound, this would be enough for the proof. It is not the case here. So this is only a note.)</span></li>
+</ol>
+
+<h3>Part 2</h3>
+
+<p>We verify the second clause of the definition of supremum is valid for \(c\). This must be demonstrated by contradiction. As this clause is a compound statement, it can be considered a small "sub-proof".</p>
+
+<p>So, suppose the clause is not valid. First, note the clause is about the \(\varepsilon\), not about the \(a'\) (I chose to write the \(\varepsilon\) to the end of the clause in the supremum definition). Second, \(a' \in A\) is the <i>definition</i> or condition of existence of \(a'\), so it is not part of the <i>predicate for \(a'\)</i>, which can be true or false.</p>
+
+<p>Separating the components in the predicate for \(a'\) $$m(x) = u - \varepsilon \lt x\\n(x) = x \lt u\text{, }$$we can represent the clause by $$\forall \varepsilon \gt 0, \varepsilon \in \mathbb{R}: \exists a' \in A \mid m(a') \land n(a')$$ which can be negated by $$\neg(\forall \varepsilon \gt 0, \varepsilon \in \mathbb{R}: \exists a' \in A \mid m(a') \land n(a'))\iff\\\exists \varepsilon \gt 0, \varepsilon \in \mathbb{R} \mid (\nexists a' \in A \mid m(a') \land n(a'))\text{.}$$Note the predicate for \(a\) can be written in the form $$\nexists a' \mid p(a')\text{. }$$When the variables upon which a non-existance predicate depend can be taken to always exist, the predicate can be rewritten as a negated "for all" predicate: $$\nexists x \mid p(x) \iff \forall x : \neg p(x)$$In this case, note than in \(m, n\), all variables always exist, for the following reasons:</p>
+
+<ul>
+    <li>\(u\), because it is an upper bound;</li>
+    <li>\(\varepsilon\), because it is any real \(\gt 0\);</li>
+    <li>\(x = a'\), because \(a'\) is the midpoint between \(u - \varepsilon\) and \(u\), which both always exist.</li>
+</ul>
+
+<p>So the whole clause can be rewritten as $$\exists \varepsilon \gt 0, \varepsilon \in \mathbb{R} \mid \forall a' \in A : \neg(m(a') \land n(a'))\iff\\\exists \varepsilon \gt 0, \varepsilon \in \mathbb{R} \mid \forall a' \in A : \neg m(a') \lor \neg n(a')\text{. }$$<!--Note that any of \(\neg m(a'), \neg m(a'), \neg m(a')\) being true makes the entire predicate around \(a'\) true. --><!--Remembering we must prove that the negated expression can't be true, none of those can't be true. -->Expliciting $$\neg m(x) = u - \varepsilon \geq x\\\neg n(x) = x \geq u\text{, }$$we can write$$\exists \varepsilon \gt 0, \varepsilon \in \mathbb{R} \mid \forall a' \in A : u - \varepsilon \geq a' \lor a' \geq u\text{. }$$We must show this can't be true.</p>
+
+<p>We note by the definition of upper bound, if \(u - \varepsilon \geq a', \forall a' \in A\), then \(u - \varepsilon \in U\), or \(u - \varepsilon\) is an upper bound of \(A\).</p>
+
+<!--<p>However, by the definition of supremum, \(u - \varepsilon )-->
+
+<p>However, by the axiom of completeness, \(c = u \lte )</p>
+
+<h3>What this proof did</h3>
+
+<p>This proof identifies the sets \(A\) of real numbers and its upper bounds set \(U\) with the sets described in the Axiom of Completeness \(A\), \(B\), by verifying that by the definition of upper bound, the set \(B\) in the axiom describes the upper bound set \(U\), then implying the existence of \(c\).</p>
+<p>If a minimum upper bound definition of supremum is maintained, we verify that \(c\) is lower than or equal to all points in the set \(A\), implying it is the minimum of that set and, as such, the minimum upper bound.</p>
+
+<p>If the &epsilon;-based definition of supremum is utilized, we verify that for \(c\), the "&epsilon;-procedure" described in that definition is satisfied, because of no gaps between \(c\) and \(A\). (See "the &epsilon; scan" below.)</p>
+
+<h3>Uniqueness</h3>
+
+<p>Let's try and prove that \(A \subset X\), where \(X\) is an ordered set, has \(1\) supremum. <span class="notebox">Note: this needn't be applied to \(\mathbb{R}\).</span></p>
+
+<!--<p>Here is a list of some definitions possible to contradict:</p>
+
+<ul>
+    <li>The existence of a single \(c\) (axiom of completeness)</li>
+    <li>The definition of \(S\) (the upper bounds set)</li>
+    <li>The definition of supremum</li>
+</ul>-->
+
+<p>Here are the steps taken:</p>
+
+<ol>
+    <li>Suppose \(s\) and \(s_2\), supremums of \(A\), and \(U\) their upper bound set.</li>
+    <li>Suppose \(s_2 \gt s\).
+        <ul>
+            <li>By the axiom of completeness, \(a \leq s_2, \forall a \in A\).</li>
+            <li>But then \(a = s_2 \gt s\), contradicting the same statement for \(s\) that \(a \leq s, \forall a \in A\).</li>
+        </ul>
+    </li>
+    <li>Supose \(s_2 \lt s\).</li>
+        <ul>
+            <li>In an analogous way, by the axiom of completeness, \(u \geq s_2, \forall u \in U\).</li>
+            <li>But then \(u = s_2 \lt s\), contradicting the same statement for \(s\) that \(u \geq s, \forall u \in U\). \(\blacksquare\)</li>
+        </ul>
+    </li>
+</ol>
+
+<h3><a name="the_epsilon_scan">The &epsilon; scan</a></h3>
+
+<p>The &epsilon; procedure in a set \(X\) checks for points belonging to a certain subset \(Y\) inside any interval opened to the left or to the right of a certain point in \(X\).</p>
+
+<p>Why "inside"? Because we're considering a dense set \(X\) so that the property that there are always points inside any interval opened inside such set is valid. So this property guarantees that we always find points by opening intervals, and then, we can just check which set they belong to, or if they belong to the set \(Y\).</p>
+
+<p>In this case, we're interested in that <strong>all</strong> points found belong to our set \(Y\) which represents the set we're trying to find the supremum for, because then it means <b>there are no points</b> between our point of consideration (an arbitrary upper bound) and \(Y\), or no "gap", such that the point is considered to be "immediately to the side" of \(Y\).</p>
+
+<p>Why look for points between two points instead of just looking at all points to the left? In this case, taking <i>all</i> points in a certain direction into consideration, for a proper subset \(Y\) there will certainly be points which don't belong to \(Y\) because they're "beyond" \(Y\), so to speak, and not because they're in any gap between our point an \(Y\), independent of whether the gap exists or not. So this "test" would give a "false positive" for those points. We're interested only in the points "before", not "after" the set \(Y\), so to speak.</p>
+
+<p>The mid-points, by contrast, are still found "beyond" the set \(Y\), because we look for any point which may belong to \(Y\), and the set is there in the middle. Meanwhile, any points <i>in the gap</i> between the first point and the set, or "before" the set, <i>won't</i> have any mid-point belonging to the set, simply because they're on the "wrong side" of it.</p>
+
+<p>Denseness supplies those mid-points.</p>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

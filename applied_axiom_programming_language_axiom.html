@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The applied axiom &amp; the programming language axiom - Pedro Sobota</title>
+  <meta property='og:title' content='The applied axiom &amp; the programming language axiom - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>The applied axiom &amp; the programming language axiom</h1>
+<div class="blogtags"><span class="blogtag math">Mathematics</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>June/2020</p><hr/>
+</div>
+
+<p>In <a href="proof_supremum_existance_uniqueness.html">&epsilon;-supremum existence and uniqueness with axiom of completeness (proof)</a>, we tried to give the proof of existence and uniqueness of the supremum in \(\mathbb{R}\). To this end, we used the axiom of completeness.</p>
+
+<p>On this article, we'll elaborate on some details of the logic present in the axiom.</p>
+
+<p>The axiom as defined in the proof I gave is more abstract than as would be only applied to \(\mathbb{R}\). \(c\) pre-exists in \(\mathbb{R}\) before the axiom, because of the denseness of \(\mathbb{R}\). The axiom of completeness' work generally is to give a common name \(c\) to such point, which in the reals is either \(max(A) \in A\) in case \(A\) is closed to the right, or \(min(S) \notin A\) in case \(A\) is open to the right.</p>
+
+<p>These situations are, respectively, in the reals </p>
+
+<ul>
+    <li>\(a \leq c \leq s, \forall a \in A, \forall s \in S\), with \(A\) and \(S\) not disjoint; and</li>
+    <li>\(a \lt c \leq s, \forall a \in A, \forall s \in S\), with \(A\) and \(S\) disjoint, covered because \(a \leq c \leq s \Rightarrow a \leq b \leq s, \forall a, s, c\) in such ordered set.</li>
+</ul>
+
+<p>Note the axiom in this wording is "more than sufficient" when applied to \(\mathbb{R}\) in a sense because of this, any case where, in the axiom's variables, \(c \lt b \land c \neq b\) (which would still qualify as \(c \leq b\)) never occurs, because this would imply an open-to-the-left set of upper bounds \(S\), of which there are none in \(\mathbb{R}\). In fact, it is precisely this fact that certifies \(c\) exists when \(A\) is open to the right in \(\mathbb{R}\), as for in other cases if \(S\) is open to the left there is no \(min(S)\).</p>
+
+<p>So \(c \leq b\) is a tautology in the applied axiom to \(\mathbb{R}\) and the axiom could, less simply, but with a more sufficient purport, be defined </p>
+
+<ul>
+    <li>Let the sets \(A, B \subset \mathbb{R}\).</li>
+    <li>If \(a \lt b, \forall a \in A, \forall b \in B\), (or \(A\) and \(B\) are disjoint), then</li>
+    <li class="nobu">
+        <ul>
+            <li>\(\exists c \in B \mid a \lt c \leq b, \forall a \in A, \forall b \in B\text{.}\qquad\)<a class="ref" name="ref1">\((1)\)</a></li>
+        </ul>
+    </li>
+    <li>Else
+        <ul>
+            <li>If \(\exists! a \in A, b \in B \mid a = b\) (or \(A\) and \(B\) are joined by one point), then</li>
+            <li class="nobu">
+                <ul>
+                    <li>\(c = a\).</li>
+                </ul>
+            </li>
+            <li>Else 
+                <ul>
+                    <li>\(\nexists c\)</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<div class="notebox">
+    Note: To be more sufficient, we could in <a class="ref" href="#ref1">\((1)\)</a> explicit \(c = min(B)\), or \(c = x \in B \mid x \leq y, \forall y \in B\). This also has the consequence that \(c\) now refers in this expression to a single point instead of many, as will be elaborated in "the programming language axiom" section below.
+</div>
+
+<p>But what does \(\nexists c\) mean? The presence or absence of this statement mean the same, that there is <i>no such</i> \(c\). This harks to the nature of this axiom, which is in reality the definition of a variable. We could omit the non-existance branch, but then it would not be obvious, now taking the literality of the definition into account, in which cases the variable, which is the result of the axiom, would cease to exist. (Note that in the above definition, the non-existance branch is mutually exclusive with all other possible branches of the definition, and the sum of all possibilities yield the totality of possibilities: so there is no chance of <i>not having a result</i> or, more close to programming language terms, an <strong>undefined variable</strong>.)</p>
+
+<h3>The programming language axiom</h3>
+
+<p>In programming language terms, in an imperative definition, we would have the above definition, with the only difference that the non-existance of \(c\) would be substituted by essentially \(c\) <i>existing</i>, with a <i>null</i> value.</p>
+
+<p>In a functional kind of programming language definition, one would define \(c\) in one step:</p>
+
+<a name="ref1b">$$c = \text{is }a \lt b, \forall a \in A, \forall b \in B\text{? then }\\c \mid a \lt c \leq b, \forall a \in A, \forall b \in B\text{. }\color{brown}{\underline{(1b)}}\text{ if not,}\\\exists! a \in A, b \in B \mid a = b\text{? then}\\a\text{. if not, then nothing.}$$</a>
+
+<p>Now, \(c\) <i>always refers to a value</i>, even if <i>nothing</i>. The only aspect in this direction left to examine is that <a class="ref" href="#ref1">\((1)\)</a>, <a class="ref" href="#ref1b">\((1b)\)</a> refer to a point defined by an inequality. We <i>know</i> it is not the intention of the axiom to refer to multiple points (on the contrary!), so we can try to define which point it is, so as to condense the variable value from a collection of points to a single point. (This would achieve an uniform <i>type</i> for the value of the variable in the programming language definition.)</p>
+
+<p>But, again, back to the properties of \(\mathbb{R}\), an arbitrary proper point can't be pointed to in this set, because of its denseness. We can't <i>count</i> towards the point; say, to reach for the first point or any other position-based stipulation. There is no hope except for the fact that we know that the point in this case equals \(min(B)\). Let's use it in its explicit form.</p>
+
+$$\text{point }c = \text{is }a \lt b, \forall a \in A, \forall b \in B\text{? then }\\c \in B \mid c \leq b, \forall b \in B\text{. if not,}\\\exists! a \in A, b \in B \mid a = b\text{? then}\\a\text{. if not, then nothing.}$$
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

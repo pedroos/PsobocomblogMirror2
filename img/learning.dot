@@ -1,0 +1,73 @@
+digraph G {
+  rankdir=LR;
+  "all";
+  
+  "all" -> "computer science";
+  "computer science" -> "lambda calculus"
+  "computer science" -> "floating point"
+  "floating point" -> "number systems"
+  "computer science" -> "l and rvalues"
+  "lambda calculus" -> "javascript"
+  "computer science" -> "complexity"
+  
+  "all" -> "programming";
+  "programming" -> "generics"
+  "generics" -> "interface covariance"
+  "programming" -> "sum types"
+  "sum types" -> "interface"
+  "sum types" -> "sealed trait"
+  "programming" -> "object orientation"
+  "object orientation" -> "set theory"
+  "set theory" -> "urelements"
+  "urelements" -> "sum types"
+  "programming" -> "float hashing"
+  "float hashing" -> "commutativity"
+  "programming" -> "performance"
+  "commutativity" -> "performance"
+  "performance" -> "c++"
+  "performance" -> "floating point"
+  "programming" -> "static programming"
+  "c++" -> "static programming"
+  "static programming" -> "d"
+  "static programming" -> "constexpr"
+  "static programming" -> "concepts"
+  "programming" -> "equality"
+  "equality" -> "data classes\nrecord classes"
+  "equality" -> "manual\niequatable"
+  "equality" -> "reference system"
+  "reference system" -> "set theory"
+  "c++" -> "l and rvalues"
+  "l and rvalues" -> "lambda calculus"
+  "programming" -> "javascript"
+  "programming" -> "functional"
+  "functional" -> "lambda calculus"
+  "performance" -> "servers"
+  "servers" -> "databases"
+  "databases" -> "complexity"
+  "servers" -> "networking"
+  "networking" -> "http protocol"
+  
+  "all" -> "mathematics";
+  "mathematics" -> "analysis";
+  "analysis" -> "definition of continuity";
+  "definition of continuity" -> "quantifiers";
+  "analysis" -> "definition of limit";
+  "analysis" -> "definition of supremum"
+  "definition of supremum" -> "negation"
+  "mathematics" -> "number systems";
+  "mathematics" -> "logic"
+  "logic" -> "negation"
+  "logic" -> "functional"
+  "mathematics" -> "basic functions"
+  "mathematics" -> "commutativity"
+  "number systems" -> "wolfram"
+  "mathematics" -> "set theory"
+  "set theory" -> "irregular collections"
+  "mathematics" -> "combinatorics"
+  "combinatorics" -> "problem solving"
+  "irregular collections" -> "combinatorics"
+  
+  "all" -> "electrical engineering"
+  "electrical engineering" -> "waves"
+  "waves" -> "basic functions"
+}

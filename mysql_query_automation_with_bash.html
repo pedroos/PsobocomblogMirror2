@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySQL query automation with Bash - Pedro Sobota</title>
+  <meta property='og:title' content='MySQL query automation with Bash - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>MySQL query automation with Bash</h1>
+<div class="blogtags"><span class="blogtag algo">Programming</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>March/2017</p><hr/>
+</div>
+
+<p>Using bash aliases, we can change the way we query MySQL databases on bash (over the commandline option). This works by working from outside of the command line client, sending queries through the -e switch (which forwards the query text to the client).</p>
+
+<p>It is sometimes not the most practical use to directly invoke the client with -e in the command line because we also must specify host and user information in the command, as in:</p>
+
+<pre>mysql -h (host) -u (username) -p -e "here is my query"</pre>
+
+<p>etc.</p>
+
+<p>In addition, the password is prompted every time, which is secure, but cumbersome. We can implement the login path:</p>
+
+<pre>mysql -h (host) -u (username) -login-path=(login path name) -e "here is my query"</pre>
+
+<p>which is necessary for this shortcut to work.</p>
+
+<p>With the (secure) password taken care of, we can simplify the command with a function:</p>
+
+<pre>
+my () {
+    if [[ $2 = "prod" ]]; then
+        login_path=(prod environment login path name)
+    else
+        login_path=(dev environment login path name)
+    fi
+    #$1 = database, $3 = query
+    if [ -n "$3" ]; then
+        $(which mysql) --login-path=$login_path -A --connect_timeout=1000 --reconnect $1 -e "$3"
+    else
+        $(which mysql) --login-path=$login_path -A --connect_timeout=1000 --reconnect $1
+    fi
+}
+</pre>
+
+<p>This function takes an environment argument, so we can run in the environment we want, a database name to run the query on, and the query.</p>
+
+<p>It can be invoked like this:</p>
+
+<pre>
+$ my information_schema dev 'show tables'
+
++---------------------------------------+
+| Tables_in_information_schema          |
++---------------------------------------+
+| CHARACTER_SETS                        |
+| COLLATIONS                            |
+| COLLATION_CHARACTER_SET_APPLICABILITY |
+| COLUMNS                               |
+| COLUMN_PRIVILEGES                     |
+| ENGINES                               |
+| EVENTS                                |
+| FILES                                 |
+| GLOBAL_STATUS                         |
+| GLOBAL_VARIABLES                      |
+| KEY_COLUMN_USAGE                      |
+| OPTIMIZER_TRACE                       |
+| PARAMETERS                            |
+| PARTITIONS                            |
+| PLUGINS                               |
+</pre>
+
+<p>Distinct from editing inside the mysql command line client, we can use bash's tools to read, filter etc. our query results:</p>
+
+<pre>
+$ my axscp_db dev 'show tables'|grep job
+
+alert_emails_jobs
+config_external_job
+job
+job_execution
+job_execution_log
+job_schedule
+job_xls
+</pre>
+
+<p>We can scroll with less:</p>
+
+<pre>
+$ my information_schema dev 'show tables'|less
+</pre>
+
+<p>We can edit with vim:</p>
+
+<pre>
+$ my axscp_db prod 'select * from job_xls'|vim -
+</pre>
+
+<p>(with an apostrophe in the end)</p>
+
+<p>It is on history:</p>
+
+<pre>
+$ history|grep my
+
+505  my axscp_db dev 'show tables'|grep account
+506  my axscp_db dev 'select * from config_type'
+507  my axscp_db dev 'alter table config_type drop column accTableName'
+508  my axscp_db dev 'select * from config_type'
+509  my axscp_db dev 'show tables'
+510  my axscp_db dev 'show tables'|grep account
+</pre>
+
+<p>Commands can be searched with Ctrl + R:</p>
+
+<pre>
+(reverse-i-search)`alter': my axscp_db dev 'alter table job add `runSpecific` datetime';
+</pre>
+
+<p>It is simple to edit the query too, almost as fast sometimes as editing queries on the command line client.</p>
+
+<p>It might be useful also to create special-purpose functions for the most useful/used queries by packaging this command inside them.</p>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

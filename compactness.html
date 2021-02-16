@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compactness - Pedro Sobota</title>
+  <meta property='og:title' content='Compactness - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>Compactness</h1>
+<div class="blogtags"><span class="blogtag math">Mathematics</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>June/2020</p><hr/>
+</div>
+
+<p>Let's consider a "covering" as a procedure to include points from a set \(A\) into another set \(C\).</p>
+
+<p>The procedure consists of defining \(C\) as a union of open intervals, to which we, successively, "add" new intervals such that  all points of \(A\) are in the union.</p>
+
+<p>Consider an open interval \(A_1 = (-1, 1)\). If we take \(A_1\) itself, we realize all of its points belong to itself, so it is a <i>trivial</i> covering of itself.</p>
+
+<p>Now consider a closed interval \(A_2 = [-1, 1]\). The open interval \((-1, 1)\) does <i>not</i> cover \(A_2\), because the points \({-1, 1}\) are excluded from it. But coverings are made of only open intervals, so consider which <i>open</i> interval or union of open intervals contains all the points of the closed interval \([1, 1]\)?</p>
+
+<p>The point is that a <i>finite</i> number of open intervals in union \(C\) contains a closed interval \(A\). Let's take one example. For \(A_2 = [-1, 1]\), the union of the open interval \((-1, 1)\) with the open interval \((-2, 2)\) contains \([-1, 1]\). Simply because \((-2, 2)\) contains \(-1\) and \(1\).</p>
+
+<p>Now, which interval would need <i>infinitely many</i> open intervals to be united to be covered? We've considered a closed interval, and an open interval.</p>
+
+<p>Let's take an example of one such <i>infinite</i> covering.</p>
+
+<p>What does infinite mean? It means no finite number of unions cover the set. This means there <i>must be</i> a <i>process</i> which <i>generates</i> the intervals to unite, such that the process is infinite or does not end.</p>
+
+<p>It is not directly related but there seems to be a definition of an infinite collection, or an infinite process (one of such being possibly defined as a process containing an infinite collection of steps) as one needing a <i>formula</i> for its existance, or an <i>unbounded</i> formula, as opposed to a <i>finite</i> collection or process which can be described as the simple arbitrary union of its elements, or a <i>bounded</i> formula, which is the same. A formula which stipulates an <i>ending</i> condition, versus one that doesn't. And this seems to permeate all of this kind of infinity shit in Mathematics. This will be left undefined for now, and referred to in the future if I come across a definition.</p>
+
+<p>We'll look again at \(A_1 = (-1, 1)\). There <i>is</i> a union of open intervals which covers this interval which is <i>infinite</i>. Begin with the interval that covers "half" of \(A_1\), or \(\left(-\frac{1}{2}, \frac{1}{2}\right)\). Consider the next interval to take, or the "process" we'll follow to generate new intervals to join. If we keep, for example, adding half the previous interval, or \(\left\{ \frac{1}{2}, \frac{3}{4}, \ldots\right\} \), we'll <i>never</i> "reach" \([-1, 1]\). We'll always be inching closer, but since we're taking <i>halfs</i>, it's never enough to reach it.</p>
+
+<p>Now, consider another formula to generate intervals at bigger increases than \(\frac{1}{2}\). For example, consider the process <sup><a href="#references">1</a></sup> $$f(a) = \frac{a}{a+1}$$ executed cumulatively which is the sequence $$\left\{ \frac{a}{a+1}, \frac{a+1}{a+2}, \ldots\right\} $$ which, starting at half, is $$\left\{\frac{1}{2}, \frac{2}{3}, \ldots, \frac{1000000}{1000001}, \ldots\right\}\text{.}$$</p>
+
+<p>This sequence clearly reaches \(1\) in the limit, so, applied to both sides of the line, it clearly encompasses \((-1, 1)\).</p>
+
+<p>Since it only does so in the limit, after an infinite number of steps, though, it is not reducible: if any step (before) infinite is removed, the sequence does not reach \(1\) anymore, meaning it is not a cover of \(A_1\) anymore.</p>
+
+<p>As such, this is a <i>necessarily infinite</i> cover of \(A_1\) in \(\mathbb{R}\).</p>
+
+<p>When any of such coverings exist for an interval, the interval is <i>not compact</i>.</p>
+
+<p>For a compact interval, <i>any and all</i> coverings admit a finite "version".</p>
+
+<p>Compact intervals end up being just the closed and bounded intervals, but it is interesting to notice the concept of covering as a kind of "interval"-constructing-from-sequences procedure. Or, "reconstructing", if you will: suppose we have an interval \(A\) which is known is bounded, but we don't know the bounds of. We know one point which belongs to the interval. Then, starting from such point, a covering \(C\) is just an economical algorithm to find the interval's bounds by successively testing belonging of \(C\)'s interval's points into \(A\).</p>
+
+<a name="references"><h3>References</h3></a>
+
+<ol>
+    <li><a href="https://qr.ae/pNyMNI" target="_blank">Mathematics: What is a compact set? Alon Amit's answer, Quora</a></li>
+</ol>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathematical algorithms - Pedro Sobota</title>
+  <meta property='og:title' content='Mathematical algorithms - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet"><link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="img/lab/style_body_article_lab.css"/>
+
+</head>
+
+<body class="lab">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<script src='img/microlight.js' async></script>
+<link rel="stylesheet" type="text/css" href="img/google-code-prettify/prettify.css"/>
+<script src="img/google-code-prettify/prettify.js"></script>
+<script src="img/google-code-prettify/lang-mma.min.js"></script>
+<link rel="stylesheet" type="text/css" href="img/google-code-prettify/prettify-mma.min.css"/>
+
+<!--<script src='img/cindyjs/Cindy.js'></script>
+<link rel="stylesheet" type="text/css" href="img/cindyjs/CindyJs.css"/>-->
+
+<script src="img/lab/main.js"></script>
+<script>
+    showCodeOut = (outId, content) => {
+        const codeOut = document.getElementById(outId)
+        codeOut.innerHTML = content.join('<br/>')
+        codeOut.style.display = 'block'
+    }
+</script>
+
+<h1>Mathematical algorithms</h1>
+
+<h5>In this post</h5>
+
+<ul>
+    <li><a href="#integer_divisibility">Integer divisibility</a></li>
+    <li><a href="#vector_point_conversion">Vector-point conversion</a></li>
+</ul>
+
+<a name="integer_divisibility"><h3>Integer divisibility</h3></a>
+
+<p>Divisibility of an integer number can be found by repeated subtraction until zero is reached, but, plotting a table of multiples for each number, we can spot patterns for some of them <a class="ref" href="#ref">[1]</a>.</p>
+
+<div class="tablecaption">Divisibility by \(2\)</div>
+<table class="tbl1">
+    <thead>
+        <tr>
+            <th></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>x 2</td>
+            <td>2</td>
+            <td>4</td>
+            <td>6</td>
+            <td>8</td>
+            <td>10</td>
+            <td>12</td>
+            <td>14</td>
+            <td>16</td>
+            <td>18</td>
+            <td>20</td>
+            <td>22</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="12">The numbers above all end with digit 0, 2, 4, 6 or 8:</td>
+        </tr>
+        <tr>
+            <td>final digit</td>
+            <td>2</td>
+            <td>4</td>
+            <td>6</td>
+            <td>8</td>
+            <td>0</td>
+            <td>2</td>
+            <td>4</td>
+            <td>6</td>
+            <td>8</td>
+            <td>0</td>
+            <td>2</td>
+            <td>4</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="tablecaption" style="margin-top: 30px;">Divisibility by \(3\)</div>
+<table class="tbl1">
+    <thead>
+        <tr>
+            <th></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>x 3</td>
+            <td>3</td>
+            <td>6</td>
+            <td>9</td>
+            <td>12</td>
+            <td>15</td>
+            <td>18</td>
+            <td>21</td>
+            <td>24</td>
+            <td>27</td>
+            <td>30</td>
+            <td>33</td>
+            <td>36</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="12">In each number above, the sum of the digits is divisible by 3:</td>
+        </tr>
+        <tr>
+            <td>digit sum</td>
+            <td>3</td>
+            <td>6</td>
+            <td>9</td>
+            <td>3</td>
+            <td>6</td>
+            <td>9</td>
+            <td>3</td>
+            <td>6</td>
+            <td>9</td>
+            <td>3</td>
+            <td>6</td>
+            <td>9</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="tablecaption" style="margin-top: 30px;">Divisibility by \(5\)</div>
+<table class="tbl1">
+    <thead>
+        <tr>
+            <th></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>x 5</td>
+            <td>5</td>
+            <td>10</td>
+            <td>15</td>
+            <td>20</td>
+            <td>25</td>
+            <td>30</td>
+            <td>35</td>
+            <td>40</td>
+            <td>45</td>
+            <td>50</td>
+            <td>55</td>
+            <td>60</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="12">In each number above, the final digit is 0 or 5:</td>
+        </tr>
+        <tr>
+            <td>final digit</td>
+            <td>5</td>
+            <td>0</td>
+            <td>5</td>
+            <td>0</td>
+            <td>5</td>
+            <td>0</td>
+            <td>5</td>
+            <td>0</td>
+            <td>5</td>
+            <td>0</td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="tablecaption" style="margin-top: 30px;">Divisibility by \(6\)</div>
+<table class="tbl1">
+    <thead>
+        <tr>
+            <th></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>x 6</td>
+            <td>6</td>
+            <td>12</td>
+            <td>18</td>
+            <td>24</td>
+            <td>30</td>
+            <td>36</td>
+            <td>42</td>
+            <td>48</td>
+            <td>54</td>
+            <td>60</td>
+            <td>66</td>
+            <td>72</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="12">Each number above is divisible by both 2 and 3.<br/>
+                For counterexamples, 21 is divisible by 3, but not 2; and 14 is divisible by 2, but not 3.
+            </td>
+        </tr>
+        <tr>
+            <td>/ 2</td>
+            <td>3</td>
+            <td>6</td>
+            <td>9</td>
+            <td>12</td>
+            <td>15</td>
+            <td>18</td>
+            <td>21</td>
+            <td>24</td>
+            <td>27</td>
+            <td>30</td>
+            <td>33</td>
+            <td>36</td>
+        </tr>
+        <tr>
+            <td>/ 3</td>
+            <td>2</td>
+            <td>4</td>
+            <td>6</td>
+            <td>8</td>
+            <td>10</td>
+            <td>12</td>
+            <td>14</td>
+            <td>16</td>
+            <td>18</td>
+            <td>20</td>
+            <td>22</td>
+            <td>24</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="tablecaption" style="margin-top: 30px;">Divisibility by \(10\)</div>
+<table class="tbl1">
+    <thead>
+        <tr>
+            <th></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>x 10</td>
+            <td>10</td>
+            <td>20</td>
+            <td>30</td>
+            <td>40</td>
+            <td>50</td>
+            <td>60</td>
+            <td>70</td>
+            <td>80</td>
+            <td>90</td>
+            <td>100</td>
+            <td>110</td>
+            <td>120</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="12">In each number above, the final digit is 0.</td>
+        </tr>
+        <tr>
+            <td>final digit</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    </tbody>
+</table>
+
+<p><a name="heuristics_table">So by these (non-exhaustive) heuristics, an integer is divisible by</a>:</p>
+
+<ul>
+    <li>\(2\) if the last digit is \(0\), \(2\), \(4\), \(6\) or \(8\)</li>
+    <li>\(3\) if the sum of the digits is divisible by \(3\)</li>
+    <li>\(5\) if the last digit is \(5\) or \(0\)</li>
+    <li>\(6\) if it is divisible by both \(2\) and \(3\)</li>
+    <li>\(10\) if it ends with \(0\)</li>
+</ul>
+
+<p>In the second item above (division by \(3\)), the algorithm will loop forever if primary division by \(3\) is not defined first (because the criteria refers to itself). To implement this, for numbers up to \(10\) we can use repeated subtraction by \(3\) to check that zero is arrived at (that is, there is no remainder in the division).</p>
+
+<p>All code in this article is available at <a class="ref" href="#ref">[2]</a>.</p>
+
+<input type="button" onclick="showCodeOut('divisibleOut', pslab_divisible_tests())" value="Run code"/>
+
+<div id="divisibleOut" class="microlight codeOut"></div>
+
+<pre class="prettyprint lang-scala">// Scala.js code
+
+def tailDigit(n: Int) = n.toString().takeRight(1).toInt
+
+def digits(n: Int) = n.toString().split("").map {_.toInt}
+
+def longRem(a: Int, b: Int): Int = 
+    if (a >= b) 
+    longRem(a - b, b) 
+    else a
+
+def divisible(a: Int, b: Int): Boolean = 
+    //if (a > 10) None else 
+    if (b == 2) 
+        Array(0, 2, 4, 6, 8).contains(tailDigit(a)) 
+    else if (b == 3) 
+        if (a > 10) 
+            divisible(digits(a).fold(0)((a, b) => a + b), 3) 
+        else 
+            longRem(a, 3) == 0
+    else if (b == 5) 
+        Array(0, 5).contains(tailDigit(a))
+    else if (b == 6) 
+        divisible(a, 2) && divisible(a, 3)
+    else if (b == 10) 
+        tailDigit(a) == 0
+    else false
+
+def longRemTests() = Array(
+    assEq("LongRem1", () => longRem(10,  3),  1), 
+    assEq("LongRem2", () => longRem(12,  4),  0), 
+    assEq("LongRem3", () => longRem(203, 17), 16)
+)
+
+def divisibleTests() = Array(
+    assEq("Divisible1",  () => divisible(20, 10), true), 
+    assEq("Divisible1b", () => divisible(31, 10), false), 
+    assEq("Divisible2",  () => divisible(4,  2),  true), 
+    assEq("Divisible2b", () => divisible(5,  2),  false), 
+    assEq("Divisible1b", () => divisible(31, 10), false), 
+    assEq("Divisible3",  () => divisible(15, 5),  true), 
+    assEq("Divisible3b", () => divisible(19, 5),  false), 
+    assEq("Divisible1b", () => divisible(31, 10), false), 
+    assEq("Divisible4",  () => divisible(12, 6),  true), 
+    assEq("Divisible4b", () => divisible(13, 6),  false), 
+    assEq("Divisible1b", () => divisible(31, 10), false), 
+    assEq("Divisible5",  () => divisible(18, 3),  true), 
+    assEq("Divisible5b", () => divisible(17, 3),  false), 
+)
+</pre>
+
+<!--<script id='csmove' type='text/x-cindyscript'>
+l1=cross(A,C);
+l2=parallel(l1,B);
+l3=perp(l1,D);
+draw(l1);
+draw(l2);
+draw(l3);
+
+draw(A,size->6,color->(.9,0,0));
+draw(B,size->6,color->(.9,0,0));
+draw(C,size->6,color->(.9,0,0));
+draw(D,size->6,color->(.9,0,0));
+</script>
+
+<div  id="CSCanvas" style="width:600px; height:600px; border:2px solid #000000"></div>
+
+<script type="text/javascript">
+var gslp=[
+            {name:"A", kind:"P", type:"Free", pos:[7,1,1]},
+            {name:"B", kind:"P", type:"Free", pos:[0,9,1]},
+            {name:"C", kind:"P", type:"Free", pos:[2,1,1]},
+            {name:"D", kind:"P", type:"Free", pos:[-2,7,1]},
+            ];
+
+CindyJS({canvasname:"CSCanvas",
+            movescript:"csmove",
+            geometry:gslp});
+</script>-->
+
+<!--<h3>Prime factorization</h3>
+
+<p>Every integer \(n\) can be represented by a combination of pairs \((p, i)\) where \(p\in\mathbb{P}\) (where \(\mathbb{P}\) is the set of prime numbers) and \(i\in\mathbb{Z}\). (See also the demonstration <a class="ref" href="#ref">[3]</a> of "why a number is prime".)</p>
+
+<p>These combinations are unique to each integer. As such, they can act as representations for an integer.</p>
+
+<p>A question arises immediately: what is the size relationship between \(n\) and its unique combination of \((p,i)\) pairs?</p>
+
+<p>The quantity of pairs \((p,i)\) which represent a number has a low ceiling of about \(5\) for integers. This is verified manually for integers up to \(1000000\) in my notebook <a class="ref" href="#ref">[4]</a>; the paper <a class="ref" href="#ref">[5]</a> seems to present a proof of this fact for any integer.</p>
+
+<p>Finding a combination of \((p, i)\), that is, the prime factorization of a number, involves breaking down a number into factors until all factors are primes. Each non-prime factor is broken down into further factors. <i>Which</i> factors are chosen is irrelevant for the result.</p>
+
+<h4>Factorizations</h4>
+
+<p>Each number has any number of factorizations (one of which <i>is</i> certainly prime). Each factorization has any number of factors and a quantity for each factor. Finding factors is a trivial problem or searching. However, computationally this is inefficient as the number of numbers to be searched grows with the size of number being looked for factors (moreover, each factor being itself made up of many factors compound the problem). We'll start with a naive algorithm, ignoring computational efficiency.</p>
+
+<p>Ultimately, we could look at each number \(0\lt x\lt n\) and subtract consecutively, testing for a zero remainder, but we count on the above <a href="#heuristics_table">heuristics table</a>, which is faster (because looking at digits is faster than subtracting consecutively if we would subtract a small divisor from a large number). We'll only use those possible factors for which there are heuristics, and if a number has none such factors, we'll abort the factorization.</p>
+
+<input type="button" onclick="showCodeOut('primeFacOut', primeFacTests())" value="Run code"/>
+
+<div id="primeFacOut" class="microlight codeOut"></div>
+
+<div class="microlight">primeFac = (n) => {
+    return n+1
+}
+
+primeFaqTests = () => 
+    [
+        assEq('PrimeFac1', primeFac, [87], 88), 
+    ].filter(x => x)
+
+tests = () => 
+    [
+        longRemTests(), 
+        divisibleTests(), 
+        primeFaqTests()
+    ].flat()
+
+console.log(tests())
+</div>-->
+
+<a name="vector_point_conversion"><h3>Vector-point conversion</h3></a>
+
+<p>In a vector space, each vector in a series (a cumulative sum of vectors) is relative to the previous vector in the sequence; that is, its value (numbers) denote the change <i>from</i> that last vector. The only absolute vector in the sum is the result vector. As individual vectors, the sum vector is absolute.</p>
+
+<p>A vector <b>path</b> is created in a relative fashion; that is, in the sequence, each vector must represent its own displacement from the position represented by the cumulative sum up to that point.</p>
+
+<p>The path itself, however, only exists in a coordinate system. This requires a "conversion" from vectors to points; which can be performed inversely as well.</p>
+
+<p>The operation of consecutive summing of vectors yields the points in the path.</p>
+
+<p>On the other hand, given the points in a path, recovering the vectors means doing the reverse process, starting from the final vector (which is the sum vector), and consecutively subtracting each point to form each vector.</p>
+
+<p>Given the following vector path:</p>
+
+<img src="img/lab/mathematical_algorithms_1.png"/>
+
+<!-- <div class="microlight">using StaticArrays
+using Test
+
+@testset "VecTests" begin
+    # Test that the sum vec of the vectors composing the path is 
+    # the last point in the path
+    
+    # Expected: (6, 4)
+    
+    @test sum([
+        SA[2, 1], 
+        SA[3, 1], 
+        SA[1, 2]
+    ]) == SA[6, 4]
+
+    # Test that the cumulative sum of the vectors in the path 
+    # yield the points in the path
+    
+    # Expected: (2,1), (5, 2) and (6, 4)
+
+    @test collect(Iterators.accumulate(+, [
+        SA[2, 1], 
+        SA[3, 1], 
+        SA[1, 2], 
+    ])) == [SA[2, 1], SA[5, 2], SA[6, 4]]
+
+    # Test that the cumulative subtraction of the point in the path 
+    # 
+end
+</div> -->
+
+<!-- <div class="microlight"> -->
+<pre class="prettyprint lang-mma">(* Wolfram code *)
+    
+On@Assert
+
+(* Test that the sum vector of the vectors composing the path is 
+    the last point in the path
+
+    Expected: (6, 4)
+*)
+
+Assert[
+    Total@{{2,1},{3,1},{1,2}} == {6,4}
+]
+
+(* Test that the cumulative sum of the vectors in the path 
+    yield the points in the path
+
+    Expected: (2,1), (5, 2) and (6, 4)
+*)
+
+Assert[
+    Accumulate@{{2,1},{3,1},{1,2}} == {{2,1},{5,2},{6,4}}
+]
+
+(* Test that the cumulative subtraction of the points in the path from 
+the final (sum) vector yield the vectors in the path, in reverse order
+
+    Expected: (1, 2), (3, 1) and (2, 1)
+*)
+
+Assert[
+    #[[2]] & /@ MovingMap[(#Values[[1]] - #Values[[2]]) &, 
+    MapIndexed[{First@#2, #1} &, (Reverse@{{0,0},{2,1},{5,2},{6,4}})], 1] == {{1,2},{3,1},{2,1}}
+]
+</pre>
+
+<p>This means to synchronize a vectorial structure (i.e. a mesh) and its graphical representation with a coordinate system, it's ideal to keep and synchronize two data structures, one for vectors and the other for points. This elicits the question as to how to search the points list for a particular point representing one of the vectors in the vector list.</p>
+
+<p>Since there is no relation between the vector and point values, it's necessary to keep an index of vector to point list positions.</p>
+
+
+
+<a name="ref"><h3>References</h3></a>
+
+<ol>
+    <li><a href="https://openstax.org/details/intermediate-algebra" target="_blank">Intermediate Algebra, Lynn Marecek, OpenStax, 2017</a></li>
+    <li><a href="http://github.com/pedroos/PSLab/tree/master/scala/src/main/scala/mathalgos" target="_blank"><code>mathalgos</code>, PSLab</a></li>
+    <!--<li><a href="http://demonstrations.wolfram.com/WhyANumberIsPrime/" target="_blank">"Why a Number Is Prime" from the Wolfram Demonstrations Project, by Enrique Zeleny</a></li>
+    <li><a href="https://github.com/pedroos/Cursos/blob/master/Matem%C3%A1ticaElementar/PrimeFactorization.pdf" target="_blank">PrimeFactorization.nb</a></li>
+    <li><a href="http://ramanujan.sirinudi.org/Volumes/published/ram35.pdf" target="_blank">The normal number of prime factors of a number \(n\), Srinivasa Ramanujan, Quarterly Journal of Mathematics, 1917</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Integer_factorization" target="_blank">Integer Factorization, Wikipedia</a></li>-->
+</ol>
+
+<script>prettyPrint()</script>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Pedro O S's Math Blog">
+  <meta name="keywords" content="mathematics software development programming">
+  <meta name="author" content="Pedro O S">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exclude packages and source files from Maven projects - Pedro Sobota</title>
+  <meta property='og:title' content='Exclude packages and source files from Maven projects - Pedro Sobota'/>
+  <meta property='og:image' content=''/>
+  <!-- <meta property='og:description' content='%%art.description%%'/>
+  <meta property='og:url' content='%%art.url%%'/> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33675243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-33675243-1');
+</script>
+
+<script>
+MathJax = {
+  loader: {load: ['[tex]/tagformat']},
+  // startup: {
+  //   pageReady: () => {
+  //     return MathJax.startup.defaultPageReady();
+  //   }
+  // },
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']], 
+    packages: {'[+]': ['tagformat']},
+    // color: {
+    //   padding: '5px'
+    // }
+    //tags: 'ams',
+    // tagformat: {
+    //   // number: (n) => n.toString(),
+    //   tag:    (tag) => 
+    //     //'((' + tag + '))',
+    //     'Formula(' + tag + ')',
+    //   // id:     (id) => 'mjx-eqn-' + id.replace(/\s/g, '_'),
+    //   // url:    (id, base) => base + '#' + encodeURIComponent(id),
+    // }
+  }, 
+  chtml: {
+    scale: 1
+  }
+}
+</script>
+
+<!-- <script src='img/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML,local/local.js'></script> -->
+<script src='img/MathJax-3.1.2-custom/tex-mml-chtml.js'></script>
+
+<!--<link rel="stylesheet" type="text/css" href="useit.css"/>-->
+<link rel="stylesheet" type="text/css" href="img/style_header.css"/>
+<link rel="stylesheet" type="text/css" href="img/style_body_article.css"/>
+
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@300&display=swap" rel="stylesheet"> -->
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="article">
+
+<header>
+
+
+
+<!--%%toc%%-->
+
+</header>
+
+<nav>
+
+<div style="float: left; width: 10px; margin-right: 20px;">
+</div>
+<div style="float: left;">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="toc.html">Mathematics</a></li>
+    <li><a href="labtoc.html">Programming</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</div>
+
+</nav>
+
+<div class="breadcrumb"></div>
+
+<div class="content">
+<h1>Exclude packages and source files from Maven projects</h1>
+<div class="blogtags"><span class="blogtag algo">Programming</span></div>
+
+<div class="article_details">
+<p>Pedro O S<br/>July/2017</p><hr/>
+</div>
+
+<p>Occasionally, on Eclipse, the problems list shows a message about a project or projects being out-of-date with the Maven pom.xml. (Of course, this means the pom.xml has been updated and the Eclipse environment has not catched up with the changes.)</p>
+
+<p>Sometimes this has triggered a small cascade of problems in the build and development process of Maven projects because the prescripted command to update the project(s) (Maven Update) changes or rewrites the .classpath file, which contains an important bit of information: the classpath exclusions performed on Eclipse via the Build Path > Exclude menu entry over selected files and packages.</p>
+
+<p>The exclusions are registered in an element like this:</p>
+
+<!--
+<classpathentry excluding=“com/mycompany/package/sourcefile.java|com/mycompany/package/sourcefile2.java|com/mycompany/packagename/“ kind="src" output="target/classes" path="src/main/java">
+    <attributes>
+        <attribute name="optional" value="true"/>
+        <attribute name="maven.pomderived" value="true"/>
+    </attributes>
+</classpathentry>
+-->
+<pre>
+&lt;classpathentry excluding=“com/mycompany/package/sourcefile.java|com/mycompany/package/sourcefile2.java|com/mycompany/packagename/“ kind="src" output="target/classes" path="src/main/java"&gt;
+    &lt;attributes&gt;
+        &lt;attribute name="optional" value="true"/&gt;
+        &lt;attribute name="maven.pomderived" value="true"/&gt;
+    &lt;/attributes&gt;
+&lt;/classpathentry&gt;
+</pre>
+
+<p>The entries are separated by pipes (|).</p>
+
+<p>When Maven Update is performed, this element is wiped out, and previously ignored source files are brought back into the compilation process, which may end up populating the Problems area with  outdated or irrelevant errors about compilation problems and masking any real problems. (Maybe particularly bad when refactoring, where it must be known whether there is unforeseen impact on the code in this or dependent projects.)</p>
+
+<p>To not have to re-exclude all files and packages everytime Maven Update is executed, and the changes commited, by someone else in the team (in case the .classpath file is versioned), sometimes I've seen flooded Problem views be dealt with, but it turns out it can be kept intact between Maven Update invocations.</p>
+
+<p>In the pom.xml area for plugins, we can use the maven-compiler-plugin to specify what it to be ignored:</p>
+
+<!--
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+        <excludes>
+             <exclude>com/mycompany/package/sourcefile.java</exclude>
+             <exclude>com/mycompany/package/sourcefile2.java</exclude>
+             <exclude>com/mycompany/packagename/</exclude>
+        </excludes>
+    </configuration>
+</plugin>
+-->
+<pre>
+&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+        &lt;excludes&gt;
+             &lt;exclude&gt;com/mycompany/package/sourcefile.java&lt;/exclude&gt;
+             &lt;exclude&gt;com/mycompany/package/sourcefile2.java&lt;/exclude&gt;
+             &lt;exclude&gt;com/mycompany/packagename/&lt;/exclude&gt;
+        &lt;/excludes&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</pre>
+
+<p>Tests are ignored with the testExcludes element:
+
+<!--
+        <testExcludes>
+              <exclude>com/mycompany/tests/</exclude>
+        </textExcludes>
+-->
+<pre>
+        &lt;testExcludes&gt;
+              &lt;exclude&gt;com/mycompany/tests/&lt;/exclude&gt;
+        &lt;/textExcludes&gt;
+</pre>
+
+<p>This section can be included wholly in case it is not already under &lt;plugins&gt;. The &lt;exclude&gt; entries take source file and package names in that format, including their fully qualified names, with dots replaced by slashes. (These fully qualified names can be copied from the unerased .classpath file pasted into the pom.) When this is configured, after future Maven Update invocations, the .classpath "excluding" entries will be re-written in accord, and source files and packages exclusion from the build process will be working again, keeping the Problems area clean and enabling timely localization of relevant problems again.</p>
+
+<h3>Java version</h3>
+
+<p>The per-project JDK version, kept in the /.settings folder inside the org.eclipse.jdt.core.prefs file, and which, unless specified in the pom.xml, also gets reset to 1.5 on my project, can be specified with a property about maven-compiler-plugin options:</p>
+
+<p>In org.eclipse.jdt.core.prefs:</p>
+
+<pre>
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8
+org.eclipse.jdt.core.compiler.compliance=1.8
+org.eclipse.jdt.core.compiler.source=1.8
+</pre>
+
+<p>In pom.xml:</p>
+
+<!--
+<properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+</properties>
+-->
+<pre>
+&lt;properties&gt;
+    &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+&lt;/properties&gt;
+</pre>
+</div>
+
+<div class="breadcrumb"></div>
+
+<footer>
+Copyright &copy 2018-2020 Pedro O S. All rights reserved.
+</footer>
+
+</body>
+</html>
