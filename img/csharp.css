@@ -7,6 +7,9 @@ pre.cscode {
     font-family: monospace;
     font-size:11pt;
     color:#000000;
+    font-family: 'm_1mregular';
+    font-weight: normal;
+    font-style: normal;
 }
 .cscode .key {color:#000088;}
 .cscode .com {color:#777777; font-size: 9pt;}

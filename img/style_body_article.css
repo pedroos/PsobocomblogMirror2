@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'm_1mregular';
+  src: url('mplus-1m-regular-webfont.woff') format('woff');
+}
 body.sitepage p {
     margin-left: 30px;
     margin-right: 30px;
@@ -162,6 +166,9 @@ pre {
     /*font-size: 12pt;
     font-family:monospace;
     background: #dddddd;*/
+    font-family: 'm_1mregular';
+    font-weight: normal;
+    font-style: normal;
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -174,6 +181,11 @@ pre.cond {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 11pt;
+}
+code {
+    font-family: 'm_1mregular';
+    font-weight: normal;
+    font-style: normal;
 }
 .blockquote {
     margin-left: 50px;
